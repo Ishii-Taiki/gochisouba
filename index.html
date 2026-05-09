@@ -2,137 +2,174 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
 <title>gochisouba — 個人投資家向けマーケットサマリー</title>
+<link rel="stylesheet" href="assets/style.css">
 <style>
-  :root {
-    --bg: #ffffff;
-    --fg: #1a1a1a;
-    --muted: #666;
-    --accent: #2563eb;
-    --border: #e5e7eb;
-    --card-bg: #f9fafb;
-    --card-hover: #eef2ff;
+  /* index 専用のレポートカード */
+  body { padding-bottom: 24px; }
+  .index-hero {
+    margin: 16px 0 24px;
+    padding: 28px 22px;
+    background: var(--gradient-hero);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0f172a;
-      --fg: #e2e8f0;
-      --muted: #94a3b8;
-      --accent: #60a5fa;
-      --border: #334155;
-      --card-bg: #1e293b;
-      --card-hover: #334155;
-    }
+  .index-hero::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+    pointer-events: none;
   }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
-    line-height: 1.7;
-    color: var(--fg);
-    background: var(--bg);
-    -webkit-font-smoothing: antialiased;
-  }
-  .container {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 4rem;
-  }
-  header {
-    text-align: center;
-    padding: 1.5rem 0 2.5rem;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 2rem;
-  }
-  header h1 {
-    margin: 0 0 0.5rem;
-    font-size: 2rem;
+  .index-hero h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 800;
     letter-spacing: -0.02em;
   }
-  header .subtitle {
-    color: var(--muted);
-    font-size: 1rem;
-    margin: 0;
+  .index-hero p { margin: 0; font-size: 14px; opacity: 0.9; }
+  .index-hero .gh-link {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
   }
-  h2 {
-    font-size: 1.2rem;
-    margin: 2rem 0 1rem;
-    color: var(--muted);
+  .index-hero .gh-link:hover { background: rgba(255,255,255,0.28); text-decoration: none; }
+
+  .list-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 24px 0 14px;
+  }
+  .list-head h2 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--fg-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
+    font-weight: 700;
   }
-  .report-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .list-head .count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--fg-subtle);
   }
-  .report-list li {
-    margin: 0.75rem 0;
-  }
+
   .report-card {
     display: block;
-    padding: 1rem 1.25rem;
-    background: var(--card-bg);
+    background: var(--bg-elev);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
     text-decoration: none;
     color: var(--fg);
-    transition: background 0.15s ease, transform 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .report-card:hover {
-    background: var(--card-hover);
     transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
   }
-  .report-date {
-    font-weight: 700;
-    font-size: 1.05rem;
+  .report-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .report-card .date {
+    font-size: 18px;
+    font-weight: 800;
     color: var(--accent);
-    display: block;
-    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
   }
-  .report-summary {
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.55;
+  .report-card .stance-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
   }
+  .report-card .stance-pill.bull { color: var(--up); background: var(--up-bg); }
+  .report-card .stance-pill.bear { color: var(--down); background: var(--down-bg); }
+  .report-card .stance-pill.neutral { color: var(--flat); background: var(--flat-bg); }
+  .report-card .summary {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--fg);
+    margin: 0;
+  }
+  .report-card .arrow {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
   footer {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
+    margin-top: 32px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
+    color: var(--fg-muted);
+    font-size: 12px;
+    line-height: 1.7;
   }
-  footer p { margin: 0.4rem 0; }
-  footer a { color: var(--accent); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  footer p { margin: 4px 0; }
+  footer a { color: var(--accent); }
 </style>
 </head>
 <body>
-<div class="container">
 
-<header>
-  <h1>gochisouba</h1>
-  <p class="subtitle">個人投資家向けマーケットサマリー</p>
+<header class="top-bar">
+  <div>
+    <div class="brand">gochisouba<span class="dot">.</span></div>
+  </div>
+  <div class="date">個人投資家向け</div>
 </header>
 
-<h2>レポート一覧</h2>
+<main class="container">
 
-<ul class="report-list">
-  <li>
-    <a class="report-card" href="reports/2026-05-09.html">
-      <span class="report-date">2026-05-09（土）</span>
-      <span class="report-summary">米雇用統計とAI需要で米株は最高値、原油・金は地政学で同時高――典型的な「上昇トレンド継続だが過熱感も濃厚」な週末。月曜寄りはギャップアップ余地ありつつ、5/7 急騰の反動と中東リスクで上下どちらにも振れやすい。</span>
-    </a>
-  </li>
-</ul>
+  <section class="index-hero">
+    <h1>📊 gochisouba</h1>
+    <p>個人投資家向けマーケットサマリー — 株式・為替・コモディティ・暗号資産を毎日整理。</p>
+    <a class="gh-link" href="https://github.com/Ishii-Taiki/gochisouba" target="_blank" rel="noopener">⌨️ GitHub リポジトリ</a>
+  </section>
 
-<footer>
-  <p>⚠️ 本サイトは情報整理を目的としており、投資助言ではありません。最終判断は読者自身のリスク許容度に基づいて行ってください。</p>
-  <p><a href="https://github.com/Ishii-Taiki/gochisouba" target="_blank" rel="noopener">GitHub リポジトリ</a></p>
-</footer>
+  <div class="list-head">
+    <h2>レポート一覧</h2>
+    <span class="count">1 件</span>
+  </div>
 
-</div>
+  <a class="report-card" href="reports/2026-05-09.html">
+    <div class="meta">
+      <span class="date">2026-05-09 (土)</span>
+      <span class="stance-pill bull">📈 やや強気</span>
+    </div>
+    <p class="summary">米雇用統計とAI需要で米株は最高値、原油・金は地政学リスクで同時高。来週 5/12 の米CPI が今週最大の山場。</p>
+    <div class="arrow">レポートを開く →</div>
+  </a>
+
+  <footer>
+    <p>⚠️ 本サイトは情報整理を目的としており、<strong>投資助言ではありません</strong>。最終判断は読者自身のリスク許容度に基づいて行ってください。</p>
+    <p><a href="https://github.com/Ishii-Taiki/gochisouba" target="_blank" rel="noopener">GitHub リポジトリ</a></p>
+  </footer>
+
+</main>
+
 </body>
 </html>
