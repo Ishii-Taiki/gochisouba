@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>gochisouba — 2026-05-09 マーケットサマリー</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --bg-elev: #ffffff;
+    --bg-soft: #f1f5f9;
+    --fg: #0f172a;
+    --fg-muted: #64748b;
+    --fg-subtle: #94a3b8;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --up: #10b981;
+    --up-bg: #d1fae5;
+    --down: #ef4444;
+    --down-bg: #fee2e2;
+    --flat: #94a3b8;
+    --flat-bg: #f1f5f9;
+    --warn: #f59e0b;
+    --warn-bg: #fef3c7;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --gradient-hero: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --bg-elev: #1e293b;
+      --bg-soft: #1a2335;
+      --fg: #f1f5f9;
+      --fg-muted: #94a3b8;
+      --fg-subtle: #64748b;
+      --border: #334155;
+      --border-strong: #475569;
+      --accent: #60a5fa;
+      --accent-soft: #1e3a8a;
+      --up: #34d399;
+      --up-bg: #064e3b;
+      --down: #f87171;
+      --down-bg: #7f1d1d;
+      --flat: #64748b;
+      --flat-bg: #334155;
+      --warn: #fbbf24;
+      --warn-bg: #78350f;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.4), 0 8px 10px -6px rgba(0,0,0,0.3);
+      --gradient-hero: linear-gradient(135deg, #1e40af 0%, #6b21a8 100%);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+    line-height: 1.65;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: 80px;
+  }
+
+  /* ---------- Top header ---------- */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @media (prefers-color-scheme: dark) {
+    .top-bar { background: rgba(15,23,42,0.85); }
+  }
+  .top-bar .brand { font-weight: 700; font-size: 15px; }
+  .top-bar .brand .dot { color: var(--accent); }
+  .top-bar .date { font-size: 12px; color: var(--fg-muted); }
+
+  /* ---------- Container ---------- */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    margin: 16px 0 24px;
+    padding: 24px 20px;
+    background: var(--gradient-hero);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .hero .label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .hero h1 {
+    margin: 0 0 14px;
+    font-size: 22px;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+  .hero .meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .hero .pill {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ---------- Section ---------- */
+  section { margin: 28px 0; scroll-margin-top: 70px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .section-head .num {
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px; font-weight: 700;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+  }
+  .section-head .sub {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+
+  /* ---------- Asset Cards Grid ---------- */
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .asset-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .asset-card .icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .asset-card .name {
+    font-size: 12px;
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+  .asset-card .price {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 4px 0 2px;
+    letter-spacing: -0.01em;
+  }
+  .asset-card .change {
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .asset-card.up .change { color: var(--up); background: var(--up-bg); }
+  .asset-card.down .change { color: var(--down); background: var(--down-bg); }
+  .asset-card.flat .change { color: var(--flat); background: var(--flat-bg); }
+  .asset-card .stripe {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .asset-card.up .stripe { background: var(--up); }
+  .asset-card.down .stripe { background: var(--down); }
+  .asset-card.flat .stripe { background: var(--flat); }
+
+  /* ---------- Temperature ---------- */
+  .temp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .temp-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .temp-card .label {
+    font-size: 12px;
+    color: var(--fg-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .temp-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .temp-card .delta {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 2px;
+  }
+  .gauge {
+    margin-top: 10px;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #10b981 0%, #fbbf24 50%, #ef4444 100%);
+    position: relative;
+  }
+  .gauge .marker {
+    position: absolute;
+    top: -3px;
+    width: 4px; height: 12px;
+    background: var(--fg);
+    border-radius: 2px;
+    transform: translateX(-50%);
+  }
+  .temp-card .note {
+    font-size: 11px;
+    color: var(--fg-subtle);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Sector ---------- */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--bg-soft);
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+  }
+  .tab {
+    flex: 1;
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg-muted);
+    border-radius: 7px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: background 0.15s;
+  }
+  .tab.active {
+    background: var(--bg-elev);
+    color: var(--fg);
+    box-shadow: var(--shadow);
+  }
+  .sector-pane { display: none; }
+  .sector-pane.active { display: block; }
+  .sector-list {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .sector-list h3 {
+    margin: 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--fg-muted);
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .sector-row {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 6px 12px;
+  }
+  .sector-row:last-child { border-bottom: none; }
+  .sector-row .name { font-weight: 600; font-size: 14px; }
+  .sector-row .pct {
+    font-weight: 700;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .sector-row.up .pct { color: var(--up); }
+  .sector-row.down .pct { color: var(--down); }
+  .sector-row .bar {
+    grid-column: 1 / -1;
+    height: 4px;
+    background: var(--bg-soft);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .sector-row .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+  }
+  .sector-row.up .bar-fill { background: var(--up); }
+  .sector-row.down .bar-fill { background: var(--down); }
+  .sector-row .reason {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+
+  /* ---------- Stock Picks ---------- */
+  .stock-scroll {
+    margin: 0 -16px;
+    padding: 4px 16px 16px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .stock-scroll::-webkit-scrollbar { display: none; }
+  .stock-card {
+    flex: 0 0 230px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    scroll-snap-align: start;
+  }
+  .stock-card .theme-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .stock-card h4 {
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .stock-card .ticker {
+    font-size: 11px;
+    color: var(--fg-subtle);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .stock-card .px-row {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .stock-card .px {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .stock-card .ch { font-size: 12px; font-weight: 600; }
+  .stock-card.up .ch { color: var(--up); }
+  .stock-card.down .ch { color: var(--down); }
+  .stock-card.flat .ch { color: var(--flat); }
+  .stock-card .reason {
+    font-size: 12px;
+    color: var(--fg-muted);
+    line-height: 1.5;
+  }
+
+  /* ---------- Topics (Accordion) ---------- */
+  .topic {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .topic summary {
+    padding: 14px;
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .topic summary::-webkit-details-marker { display: none; }
+  .topic .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  .topic .badge.high { color: #fff; background: var(--down); }
+  .topic .badge.mid { color: #fff; background: var(--warn); }
+  .topic .badge.low { color: var(--fg-muted); background: var(--bg-soft); }
+  .topic .topic-title { font-weight: 600; font-size: 14px; }
+  .topic .chevron {
+    color: var(--fg-subtle);
+    transition: transform 0.2s;
+  }
+  .topic[open] .chevron { transform: rotate(180deg); }
+  .topic-body {
+    padding: 0 14px 14px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+    padding-top: 14px;
+  }
+  .topic-body dl {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 6px 12px;
+    font-size: 13px;
+    margin: 0 0 10px;
+  }
+  .topic-body dt { color: var(--fg-muted); font-weight: 600; }
+  .topic-body dd { margin: 0; }
+  .topic-body .links { font-size: 12px; }
+  .topic-body .links a { color: var(--accent); text-decoration: none; }
+
+  /* ---------- Calendar ---------- */
+  .calendar {
+    position: relative;
+  }
+  .cal-item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cal-item:last-child { border-bottom: none; }
+  .cal-date {
+    text-align: center;
+    background: var(--bg-soft);
+    border-radius: 10px;
+    padding: 6px 4px;
+    align-self: start;
+  }
+  .cal-date .month { font-size: 10px; color: var(--fg-muted); font-weight: 600; }
+  .cal-date .day { font-size: 18px; font-weight: 700; line-height: 1.1; }
+  .cal-date .dow { font-size: 10px; color: var(--fg-muted); }
+  .cal-body .cal-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .cal-body .cal-meta {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin: 4px 0 4px;
+  }
+  .cal-body .cal-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+  .cal-body .cal-tag.us { background: #fee2e2; color: #b91c1c; }
+  .cal-body .cal-tag.jp { background: #dbeafe; color: #1e40af; }
+  .cal-body .cal-tag.earnings { background: #fef3c7; color: #92400e; }
+  .cal-body .cal-tag.geopolitics { background: #ede9fe; color: #6b21a8; }
+  @media (prefers-color-scheme: dark) {
+    .cal-body .cal-tag.us { background: #7f1d1d; color: #fecaca; }
+    .cal-body .cal-tag.jp { background: #1e3a8a; color: #bfdbfe; }
+    .cal-body .cal-tag.earnings { background: #78350f; color: #fde68a; }
+    .cal-body .cal-tag.geopolitics { background: #4c1d95; color: #ddd6fe; }
+  }
+  .cal-body .cal-note { font-size: 12px; color: var(--fg-muted); }
+
+  /* ---------- AI Stance ---------- */
+  .stance-hero {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .stance-hero .label {
+    font-size: 11px; letter-spacing: 0.08em;
+    color: var(--fg-muted); font-weight: 600;
+    text-transform: uppercase;
+  }
+  .stance-hero .stance {
+    font-size: 28px; font-weight: 800;
+    margin: 6px 0 4px;
+    background: var(--gradient-hero);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stance-hero .conf {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--warn-bg); color: var(--warn);
+    font-weight: 700;
+  }
+  .stance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .stance-cell {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .stance-cell .name { font-size: 12px; color: var(--fg-muted); font-weight: 600; }
+  .stance-cell .verdict { font-size: 13px; font-weight: 700; margin-top: 4px; }
+  .verdict.bull-strong { color: var(--up); }
+  .verdict.bull { color: var(--up); }
+  .verdict.neutral { color: var(--fg-muted); }
+  .verdict.bear { color: var(--down); }
+
+  /* ---------- Bulletin Board ---------- */
+  .board {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+  .board h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .board .gauge-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 60px;
+    gap: 10px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--fg-muted);
+    margin: 12px 0;
+  }
+  .gauge-bar {
+    height: 8px;
+    background: linear-gradient(90deg, var(--down), var(--flat) 50%, var(--up));
+    border-radius: 999px;
+    position: relative;
+  }
+  .gauge-bar .pin {
+    position: absolute;
+    top: -4px;
+    width: 16px; height: 16px;
+    background: var(--bg-elev);
+    border: 3px solid var(--fg);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: var(--shadow);
+  }
+  .board .keywords {
+    margin-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .board .kw {
+    font-size: 11px;
+    padding: 3px 9px;
+    background: var(--bg-soft);
+    border-radius: 999px;
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+  .board .summary {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin: 6px 0;
+    line-height: 1.6;
+  }
+  .board .interp {
+    font-size: 12px;
+    background: var(--warn-bg);
+    color: var(--warn);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ---------- Conclusion ---------- */
+  .concl-hero {
+    background: var(--bg-elev);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-lg);
+  }
+  .concl-hero .label {
+    font-size: 11px; letter-spacing: 0.08em;
+    color: var(--accent); font-weight: 700;
+    text-transform: uppercase;
+  }
+  .concl-hero .text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+  .concl-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .concl-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .concl-card .title {
+    font-size: 12px; font-weight: 700;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .concl-card.bull .title { color: var(--up); }
+  .concl-card.bear .title { color: var(--down); }
+  .concl-card .body { font-size: 13px; line-height: 1.6; }
+
+  /* ---------- Disclaimer ---------- */
+  .disclaimer {
+    margin: 24px 0 12px;
+    padding: 14px;
+    background: var(--warn-bg);
+    color: var(--warn);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .disclaimer strong { font-weight: 700; }
+
+  /* ---------- Bottom Nav ---------- */
+  .bottom-nav {
+    position: fixed;
+    left: 0; right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-top: 1px solid var(--border);
+    padding: 8px 4px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 50;
+    display: flex;
+    justify-content: space-around;
+  }
+  @media (prefers-color-scheme: dark) {
+    .bottom-nav { background: rgba(15,23,42,0.95); }
+  }
+  .bottom-nav a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    color: var(--fg-muted);
+    font-size: 10px;
+    padding: 4px 2px;
+    border-radius: 8px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .bottom-nav a .ico {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .bottom-nav a:hover { color: var(--accent); background: var(--bg-soft); }
+
+  /* ---------- Sources ---------- */
+  .sources {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-top: 16px;
+  }
+  .sources summary {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fg-muted);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sources summary::-webkit-details-marker { display: none; }
+  .sources ul { padding-left: 16px; margin: 12px 0 0; font-size: 12px; }
+  .sources li { margin: 6px 0; }
+  .sources a { color: var(--accent); }
+
+  /* ---------- Misc ---------- */
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div>
+    <div class="brand">gochisouba<span class="dot">.</span></div>
+  </div>
+  <div class="date">2026-05-09 (土)</div>
+</header>
+
+<main class="container">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="label">📊 ひとことで言うと</div>
+    <h1>米雇用統計とAI需要で米株は最高値、原油・金は地政学リスクで同時高。<br>「上昇継続だが過熱感も濃厚」な週末。</h1>
+    <div class="meta">
+      <span class="pill">📈 やや強気</span>
+      <span class="pill">🎯 確信度: 中</span>
+      <span class="pill">🌏 リスク: 中東 / 過熱</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. Asset Cards ===== -->
+  <section id="market">
+    <div class="section-head">
+      <span class="num">1</span>
+      <h2>主要マーケット</h2>
+      <span class="sub">5/8 終値ベース</span>
+    </div>
+    <div class="asset-grid">
+      <div class="asset-card down">
+        <div class="stripe"></div>
+        <div class="icon">🇯🇵</div>
+        <div class="name">日経平均</div>
+        <div class="price">62,713.65</div>
+        <span class="change">▼ 120 / -0.19%</span>
+      </div>
+      <div class="asset-card up">
+        <div class="stripe"></div>
+        <div class="icon">🇺🇸</div>
+        <div class="name">S&amp;P500</div>
+        <div class="price">7,398.93</div>
+        <span class="change">▲ +0.84%</span>
+      </div>
+      <div class="asset-card up">
+        <div class="stripe"></div>
+        <div class="icon">💻</div>
+        <div class="name">ナスダック</div>
+        <div class="price">26,247.08</div>
+        <span class="change">▲ +1.71%</span>
+      </div>
+      <div class="asset-card down">
+        <div class="stripe"></div>
+        <div class="icon">₿</div>
+        <div class="name">Bitcoin</div>
+        <div class="price">$79,743</div>
+        <span class="change">▼ -1.6%</span>
+      </div>
+      <div class="asset-card flat">
+        <div class="stripe"></div>
+        <div class="icon">💴</div>
+        <div class="name">ドル円</div>
+        <div class="price">156.66</div>
+        <span class="change">● -0.15%</span>
+      </div>
+      <div class="asset-card up">
+        <div class="stripe"></div>
+        <div class="icon">🥇</div>
+        <div class="name">金</div>
+        <div class="price">$4,706</div>
+        <span class="change">▲ +0.43%</span>
+      </div>
+      <div class="asset-card up">
+        <div class="stripe"></div>
+        <div class="icon">🛢️</div>
+        <div class="name">原油 (WTI)</div>
+        <div class="price">$95.64</div>
+        <span class="change">▲ +0.88%</span>
+      </div>
+      <div class="asset-card up">
+        <div class="stripe"></div>
+        <div class="icon">📊</div>
+        <div class="name">Brent</div>
+        <div class="price">$101.26</div>
+        <span class="change">▲ +1.20%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. Temperature ===== -->
+  <section id="temp">
+    <div class="section-head">
+      <span class="num">2</span>
+      <h2>相場の温度感</h2>
+      <span class="sub">不安度と金利</span>
+    </div>
+    <div class="temp-grid">
+      <div class="temp-card">
+        <div class="label">VIX（米国の不安度）</div>
+        <div class="value">14.2</div>
+        <div class="delta">前日比 -0.4</div>
+        <div class="gauge"><div class="marker" style="left:24%"></div></div>
+        <div class="note">20以下は落ち着いた状態。最高値圏でも警戒感は低め。</div>
+      </div>
+      <div class="temp-card">
+        <div class="label">日経VI（日本株の不安度）</div>
+        <div class="value">18.5</div>
+        <div class="delta">前日比 +0.7</div>
+        <div class="gauge"><div class="marker" style="left:32%"></div></div>
+        <div class="note">日本も平静圏。月曜寄りギャップ次第で変動余地。</div>
+      </div>
+      <div class="temp-card">
+        <div class="label">米10年債利回り</div>
+        <div class="value">4.42%</div>
+        <div class="delta">前日比 -0.03%</div>
+        <div class="gauge" style="background:linear-gradient(90deg,#10b981 0%,#fbbf24 70%,#ef4444 100%)"><div class="marker" style="left:62%"></div></div>
+        <div class="note">高めで推移。株式バリュエーションの重し。</div>
+      </div>
+      <div class="temp-card">
+        <div class="label">日本10年債利回り</div>
+        <div class="value">1.68%</div>
+        <div class="delta">前日比 +0.02%</div>
+        <div class="gauge" style="background:linear-gradient(90deg,#10b981 0%,#fbbf24 70%,#ef4444 100%)"><div class="marker" style="left:48%"></div></div>
+        <div class="note">日銀政策正常化で緩やかに上昇傾向。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. Sectors ===== -->
+  <section id="sector">
+    <div class="section-head">
+      <span class="num">3</span>
+      <h2>セクター別の動き</h2>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="us">🇺🇸 米国</button>
+      <button class="tab" data-tab="jp">🇯🇵 日本</button>
+    </div>
+
+    <div class="sector-pane active" data-pane="us">
+      <div class="sector-list">
+        <h3>📈 上昇上位</h3>
+        <div class="sector-row up">
+          <span class="name">テクノロジー</span>
+          <span class="pct">+1.8%</span>
+          <div class="bar"><div class="bar-fill" style="width:90%"></div></div>
+          <div class="reason">AI需要好調、半導体株が牽引</div>
+        </div>
+        <div class="sector-row up">
+          <span class="name">通信サービス</span>
+          <span class="pct">+1.4%</span>
+          <div class="bar"><div class="bar-fill" style="width:70%"></div></div>
+          <div class="reason">大型プラットフォームに買い</div>
+        </div>
+        <div class="sector-row up">
+          <span class="name">一般消費財</span>
+          <span class="pct">+0.9%</span>
+          <div class="bar"><div class="bar-fill" style="width:45%"></div></div>
+          <div class="reason">雇用統計上振れで消費期待</div>
+        </div>
+      </div>
+      <div class="sector-list" style="margin-top:10px">
+        <h3>📉 下落上位</h3>
+        <div class="sector-row down">
+          <span class="name">公益</span>
+          <span class="pct">-0.4%</span>
+          <div class="bar"><div class="bar-fill" style="width:25%"></div></div>
+          <div class="reason">金利高で配当株が敬遠</div>
+        </div>
+        <div class="sector-row down">
+          <span class="name">不動産</span>
+          <span class="pct">-0.3%</span>
+          <div class="bar"><div class="bar-fill" style="width:18%"></div></div>
+          <div class="reason">同上、金利感応度の高い分野</div>
+        </div>
+        <div class="sector-row down">
+          <span class="name">生活必需品</span>
+          <span class="pct">-0.1%</span>
+          <div class="bar"><div class="bar-fill" style="width:8%"></div></div>
+          <div class="reason">リスクオン局面で資金流出</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sector-pane" data-pane="jp">
+      <div class="sector-list">
+        <h3>📈 上昇上位</h3>
+        <div class="sector-row up">
+          <span class="name">海運</span>
+          <span class="pct">+1.2%</span>
+          <div class="bar"><div class="bar-fill" style="width:85%"></div></div>
+          <div class="reason">ホルムズ海峡懸念で運賃上昇期待</div>
+        </div>
+        <div class="sector-row up">
+          <span class="name">銀行</span>
+          <span class="pct">+0.8%</span>
+          <div class="bar"><div class="bar-fill" style="width:55%"></div></div>
+          <div class="reason">日本長期金利の上昇</div>
+        </div>
+        <div class="sector-row up">
+          <span class="name">商社</span>
+          <span class="pct">+0.5%</span>
+          <div class="bar"><div class="bar-fill" style="width:35%"></div></div>
+          <div class="reason">原油・資源高の恩恵</div>
+        </div>
+      </div>
+      <div class="sector-list" style="margin-top:10px">
+        <h3>📉 下落上位</h3>
+        <div class="sector-row down">
+          <span class="name">電気機器（半導体製造装置）</span>
+          <span class="pct">-0.6%</span>
+          <div class="bar"><div class="bar-fill" style="width:40%"></div></div>
+          <div class="reason">5/7の急騰の利食い売り</div>
+        </div>
+        <div class="sector-row down">
+          <span class="name">鉄鋼</span>
+          <span class="pct">-0.5%</span>
+          <div class="bar"><div class="bar-fill" style="width:33%"></div></div>
+          <div class="reason">中国景気指標が弱含み</div>
+        </div>
+        <div class="sector-row down">
+          <span class="name">不動産</span>
+          <span class="pct">-0.3%</span>
+          <div class="bar"><div class="bar-fill" style="width:20%"></div></div>
+          <div class="reason">金利上昇で重し</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. Stock Picks ===== -->
+  <section id="picks">
+    <div class="section-head">
+      <span class="num">4</span>
+      <h2>注目銘柄ピックアップ</h2>
+      <span class="sub">←横スクロール</span>
+    </div>
+    <div class="stock-scroll">
+      <div class="stock-card up">
+        <span class="theme-tag">AI / 半導体</span>
+        <h4>NVIDIA</h4>
+        <div class="ticker">NVDA · NASDAQ</div>
+        <div class="px-row">
+          <span class="px">$148.50</span>
+          <span class="ch">▲ +2.3%</span>
+        </div>
+        <div class="reason">AI需要のバロメーター。ナスダック最高値の主役。5/14決算が次の山場。</div>
+      </div>
+      <div class="stock-card down">
+        <span class="theme-tag">AI / 半導体</span>
+        <h4>東京エレクトロン</h4>
+        <div class="ticker">8035 · 東証プライム</div>
+        <div class="px-row">
+          <span class="px">¥38,500</span>
+          <span class="ch">▼ -0.8%</span>
+        </div>
+        <div class="reason">5/7に+8%急騰した反動。AI設備投資の追い風は継続。</div>
+      </div>
+      <div class="stock-card up">
+        <span class="theme-tag">原油 / エネルギー</span>
+        <h4>Exxon Mobil</h4>
+        <div class="ticker">XOM · NYSE</div>
+        <div class="px-row">
+          <span class="px">$122.30</span>
+          <span class="ch">▲ +1.1%</span>
+        </div>
+        <div class="reason">中東緊迫で原油高の直接恩恵。配当も安定。</div>
+      </div>
+      <div class="stock-card up">
+        <span class="theme-tag">ディフェンシブ</span>
+        <h4>NTT</h4>
+        <div class="ticker">9432 · 東証プライム</div>
+        <div class="px-row">
+          <span class="px">¥165.0</span>
+          <span class="ch">▲ +0.3%</span>
+        </div>
+        <div class="reason">過熱相場の避難先として注目。安定配当。</div>
+      </div>
+      <div class="stock-card up">
+        <span class="theme-tag">AI関連</span>
+        <h4>ソフトバンクG</h4>
+        <div class="ticker">9984 · 東証プライム</div>
+        <div class="px-row">
+          <span class="px">¥18,200</span>
+          <span class="ch">▲ +1.5%</span>
+        </div>
+        <div class="reason">Arm株高とAI投資テーマで継続買い。</div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--fg-subtle);margin:0 0 0 4px">※ 売買推奨ではなく、テーマを理解するための例示</p>
+  </section>
+
+  <!-- ===== 5. Topics ===== -->
+  <section id="topics">
+    <div class="section-head">
+      <span class="num">5</span>
+      <h2>関連する情報</h2>
+      <span class="sub">タップで展開</span>
+    </div>
+
+    <details class="topic" open>
+      <summary>
+        <span class="badge high">重要度 高</span>
+        <span class="topic-title">米4月雇用統計が予想を大きく上回り、米株が史上最高値</span>
+        <span class="chevron">▼</span>
+      </summary>
+      <div class="topic-body">
+        <dl>
+          <dt>関連</dt><dd>S&amp;P500、ナスダック、ドル円、金</dd>
+          <dt>要約</dt><dd>4月の非農業部門雇用者数+11.5万人（予想+6.5万人）。失業率4.3%。労働市場の底堅さを確認</dd>
+          <dt>強気材料</dt><dd>景気後退懸念の後退、企業収益見通し改善</dd>
+          <dt>弱気材料</dt><dd>利下げ期待の後退、賃金インフレ警戒</dd>
+        </dl>
+        <p class="links">📎 <a href="https://www.thestreet.com/latest-news/stock-market-today-may-8-2026-updates" target="_blank" rel="noopener">TheStreet</a> / <a href="https://finance.yahoo.com/markets/stocks/articles/stock-market-news-may-8-134000511.html" target="_blank" rel="noopener">Yahoo Finance</a></p>
+      </div>
+    </details>
+
+    <details class="topic">
+      <summary>
+        <span class="badge high">重要度 高</span>
+        <span class="topic-title">米イランがホルムズ海峡で交戦再開、停戦合意が揺らぐ</span>
+        <span class="chevron">▼</span>
+      </summary>
+      <div class="topic-body">
+        <dl>
+          <dt>関連</dt><dd>原油、金、株式</dd>
+          <dt>要約</dt><dd>米軍はイランの攻撃を迎撃、自衛のための報復攻撃を実施。トランプ氏は停戦は維持中と表明</dd>
+          <dt>影響</dt><dd>Brent +1.20% で$101.26、WTI +0.88% で$95.64。金もスポットで$4,700台後半</dd>
+        </dl>
+        <p class="links">📎 <a href="https://www.cnbc.com/amp/2026/05/08/oil-prices-today-wti-brent-us-iran-fire-war-hormuz-ceasefire.html" target="_blank" rel="noopener">CNBC</a></p>
+      </div>
+    </details>
+
+    <details class="topic">
+      <summary>
+        <span class="badge mid">重要度 中</span>
+        <span class="topic-title">ミシガン大消費者信頼感、ガソリン高で48.2の歴史的低水準</span>
+        <span class="chevron">▼</span>
+      </summary>
+      <div class="topic-body">
+        <dl>
+          <dt>関連</dt><dd>米株（小売・消費）、ドル円</dd>
+          <dt>要約</dt><dd>5月速報の信頼感指数48.2、4月から-3.2%。中東戦争由来のガソリン価格急騰が家計を直撃</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="topic">
+      <summary>
+        <span class="badge high">重要度 高</span>
+        <span class="topic-title">日経平均、5/7に過去最大級の上昇後 5/8は小反落</span>
+        <span class="chevron">▼</span>
+      </summary>
+      <div class="topic-body">
+        <dl>
+          <dt>関連</dt><dd>日本株、半導体株、ドル円</dd>
+          <dt>要約</dt><dd>5/7に+3,320円（+5.58%）の歴史的上げで初の62,833円。5/8は-120円の利食い反落</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="topic">
+      <summary>
+        <span class="badge mid">重要度 中</span>
+        <span class="topic-title">FRB（米連邦準備制度）トップ交代観測、金融政策の不確実性</span>
+        <span class="chevron">▼</span>
+      </summary>
+      <div class="topic-body">
+        <dl>
+          <dt>関連</dt><dd>米株、金、ドル円、米国債</dd>
+          <dt>要約</dt><dd>1週間後にFRBの歴史的なリーダーシップ交代観測。中期的な金融政策スタンスの不確実性</dd>
+        </dl>
+      </div>
+    </details>
+  </section>
+
+  <!-- ===== 6. Calendar ===== -->
+  <section id="calendar">
+    <div class="section-head">
+      <span class="num">6</span>
+      <h2>来週の予定</h2>
+      <span class="sub">5/12〜5/16</span>
+    </div>
+    <div class="calendar">
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">12</div>
+          <div class="dow">月</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">Walmart 決算（米市場後）</div>
+          <div class="cal-meta">
+            <span class="cal-tag earnings">決算</span>
+            <span class="cal-tag us">米国</span>
+          </div>
+          <div class="cal-note">消費の体温計。ガイダンス次第で消費関連全体に波及</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">13</div>
+          <div class="dow">火</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">米CPI（消費者物価指数）4月発表</div>
+          <div class="cal-meta">
+            <span class="cal-tag us">米国</span>
+            <span class="cal-tag">21:30 JST</span>
+          </div>
+          <div class="cal-note">前年比+2.7%予想。上振れなら金利急騰で株式に逆風</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">13</div>
+          <div class="dow">火</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">G7外相会合</div>
+          <div class="cal-meta">
+            <span class="cal-tag geopolitics">地政学</span>
+          </div>
+          <div class="cal-note">ホルムズ海峡情勢への共同声明に注目</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">14</div>
+          <div class="dow">水</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">米PPI（生産者物価指数）4月発表</div>
+          <div class="cal-meta">
+            <span class="cal-tag us">米国</span>
+            <span class="cal-tag">21:30 JST</span>
+          </div>
+          <div class="cal-note">CPIに先行する物価の風向き</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">14</div>
+          <div class="dow">水</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">NVIDIA 決算（米市場後）</div>
+          <div class="cal-meta">
+            <span class="cal-tag earnings">決算</span>
+            <span class="cal-tag us">米国</span>
+          </div>
+          <div class="cal-note">AI需要のバロメーター。指針次第でナスダックの方向感</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">15</div>
+          <div class="dow">木</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">日本 GDP（1-3月期速報）</div>
+          <div class="cal-meta">
+            <span class="cal-tag jp">日本</span>
+            <span class="cal-tag">08:50 JST</span>
+          </div>
+          <div class="cal-note">日銀の追加利上げ判断材料</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">15</div>
+          <div class="dow">木</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">米小売売上高 4月発表</div>
+          <div class="cal-meta">
+            <span class="cal-tag us">米国</span>
+            <span class="cal-tag">21:30 JST</span>
+          </div>
+          <div class="cal-note">消費者信頼感悪化が実数値に表れるか</div>
+        </div>
+      </div>
+
+      <div class="cal-item">
+        <div class="cal-date">
+          <div class="month">5月</div>
+          <div class="day">16</div>
+          <div class="dow">金</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-title">米中通商会談（ジュネーブ）</div>
+          <div class="cal-meta">
+            <span class="cal-tag geopolitics">地政学</span>
+          </div>
+          <div class="cal-note">通商の進展は日本株の追い風／後退は逆風</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 7. AI Stance ===== -->
+  <section id="stance">
+    <div class="section-head">
+      <span class="num">7</span>
+      <h2>AIの売り買い判断</h2>
+    </div>
+    <div class="stance-hero">
+      <div class="label">短期 1日〜1週間</div>
+      <div class="stance">やや強気</div>
+      <span class="conf">確信度 中</span>
+    </div>
+    <div class="stance-grid">
+      <div class="stance-cell"><div class="name">日経平均</div><div class="verdict bull">やや強気</div></div>
+      <div class="stance-cell"><div class="name">S&amp;P500</div><div class="verdict bull">やや強気</div></div>
+      <div class="stance-cell"><div class="name">ナスダック</div><div class="verdict bull">やや強気</div></div>
+      <div class="stance-cell"><div class="name">Bitcoin</div><div class="verdict neutral">中立</div></div>
+      <div class="stance-cell"><div class="name">ドル円</div><div class="verdict neutral">中立</div></div>
+      <div class="stance-cell"><div class="name">金</div><div class="verdict bull">やや強気</div></div>
+    </div>
+  </section>
+
+  <!-- ===== 8. Bulletin Board ===== -->
+  <section id="bbs">
+    <div class="section-head">
+      <span class="num">8</span>
+      <h2>掲示板の民</h2>
+      <span class="sub">逆指標として参照</span>
+    </div>
+
+    <div class="board">
+      <h3>🟢 4.3倍ブル掲示板</h3>
+      <p class="summary">歓喜・FOMO・ベア勢への嘲笑。買い煽り99%。</p>
+      <div class="gauge-row">
+        <span>弱気</span>
+        <div class="gauge-bar"><div class="pin" style="left:88%"></div></div>
+        <span style="text-align:right">強気</span>
+      </div>
+      <div class="keywords">
+        <span class="kw">#日経65000</span>
+        <span class="kw">#握力</span>
+        <span class="kw">#窓埋め</span>
+        <span class="kw">#エアトレーダー</span>
+        <span class="kw">#往復ビンタ</span>
+      </div>
+      <div class="interp">⚠️ 売り煽り消滅・ベア嘲笑は<strong>過熱サイン</strong>。コントラリアン視点では軽量化検討の局面</div>
+    </div>
+
+    <div class="board">
+      <h3>🔴 3.8倍ベア掲示板</h3>
+      <p class="summary">諦め・恐怖・自虐。「償還」を語る投稿が増加。</p>
+      <div class="gauge-row">
+        <span>弱気</span>
+        <div class="gauge-bar"><div class="pin" style="left:8%"></div></div>
+        <span style="text-align:right">強気</span>
+      </div>
+      <div class="keywords">
+        <span class="kw">#償還</span>
+        <span class="kw">#塩漬け</span>
+        <span class="kw">#ナンピン</span>
+        <span class="kw">#損切り</span>
+        <span class="kw">#爆益（皮肉）</span>
+      </div>
+      <div class="interp">⚠️ ベア掲示板の「償還」連呼は底打ちサインの一つ。ただし地合いは株高方向のため反転時間軸は読みにくい</div>
+    </div>
+  </section>
+
+  <!-- ===== 9. Conclusion ===== -->
+  <section id="concl">
+    <div class="section-head">
+      <span class="num">9</span>
+      <h2>今日の結論</h2>
+    </div>
+    <div class="concl-hero">
+      <div class="label">📝 メインシナリオ</div>
+      <div class="text">月曜の日本株は米株最高値更新を映してギャップアップで寄り付く可能性が高いが、5/7の急騰の反動と中東リスクで上下どちらにも振れやすい。</div>
+    </div>
+    <div class="concl-grid">
+      <div class="concl-card bull">
+        <div class="title">▲ 強気になる条件</div>
+        <div class="body">月曜の半導体株続伸／ドル円157円台維持／ホルムズ海峡情勢の沈静化</div>
+      </div>
+      <div class="concl-card bear">
+        <div class="title">▼ 弱気になる条件</div>
+        <div class="body">ホルムズで追加交戦／WTI $100超／米長期金利急騰／円急伸（154割れ）</div>
+      </div>
+      <div class="concl-card">
+        <div class="title">⏸ 様子見すべき理由</div>
+        <div class="body">株指数が最高値圏／ブル掲示板の楽観極端／消費者信頼感過去最低――上昇余地と過熱の綱引き</div>
+      </div>
+      <div class="concl-card">
+        <div class="title">📅 次に見るべきイベント</div>
+        <div class="body">5/13 米CPI／5/14 NVIDIA決算／5/15 日本GDP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Disclaimer ===== -->
+  <div class="disclaimer">
+    ⚠️ <strong>本レポートは投資助言ではなく情報整理</strong>です。最終判断と責任は読者自身に帰属します。数値は取得時点のWebソース依拠で、ソース間で乖離がある場合は両論併記しています。株式系は5/8（金）終値ベース、土日の動きは未反映。
+  </div>
+
+  <!-- ===== Sources ===== -->
+  <details class="sources">
+    <summary>📎 情報源を表示 <span style="color:var(--fg-subtle)">▼</span></summary>
+    <ul>
+      <li><a href="https://www.nikkei.com/markets/worldidx/chart/nk225/" target="_blank" rel="noopener">日経平均株価リアルタイム推移 - 日本経済新聞</a></li>
+      <li><a href="https://www.thestreet.com/latest-news/stock-market-today-may-8-2026-updates" target="_blank" rel="noopener">Stock Market Today (May 8, 2026) - TheStreet</a></li>
+      <li><a href="https://www.cnbc.com/amp/2026/05/08/oil-prices-today-wti-brent-us-iran-fire-war-hormuz-ceasefire.html" target="_blank" rel="noopener">Oil prices today - CNBC</a></li>
+      <li><a href="https://fortune.com/article/price-of-bitcoin-05-08-2026/" target="_blank" rel="noopener">Current price of Bitcoin - Fortune</a></li>
+      <li><a href="https://fortune.com/article/current-price-of-gold-05-08-2026/" target="_blank" rel="noopener">Current price of gold - Fortune</a></li>
+      <li><a href="https://finance.yahoo.co.jp/quote/9I31115A/forum" target="_blank" rel="noopener">楽天日本株4.3倍ブル 掲示板</a></li>
+      <li><a href="https://finance.yahoo.co.jp/quote/9I311249/forum" target="_blank" rel="noopener">楽天日本株3.8倍ベアIII 掲示板</a></li>
+    </ul>
+  </details>
+
+</main>
+
+<!-- ===== Bottom Nav ===== -->
+<nav class="bottom-nav">
+  <a href="#market"><span class="ico">📊</span>市場</a>
+  <a href="#sector"><span class="ico">🏭</span>業種</a>
+  <a href="#picks"><span class="ico">⭐</span>銘柄</a>
+  <a href="#calendar"><span class="ico">📅</span>予定</a>
+  <a href="#bbs"><span class="ico">💬</span>民</a>
+  <a href="#concl"><span class="ico">🎯</span>結論</a>
+</nav>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const target = t.dataset.tab;
+      document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+      document.querySelectorAll('.sector-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === target));
+    });
+  });
+</script>
+
+</body>
+</html>
