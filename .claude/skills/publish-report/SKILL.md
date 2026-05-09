@@ -17,7 +17,6 @@ description: reports/ 配下の最新マーケットレポート markdown を、
 - **下部固定ナビ**: 主要セクションへのワンタップ移動（safe-area-inset 対応）
 - **ライト/ダーク両対応**: `prefers-color-scheme` で自動切替
 - **タッチ最適化**: タップ領域広め、`-webkit-tap-highlight-color: transparent`
-- **絵文字でアフォーダンス**: 国旗・指標アイコンは絵文字で軽量化
 - **触れる操作要素**: 業種タブ（米/日切替）と Topic アコーディオン（`<details>`）は最小限の JS で実装
 
 ### コンポーネントと markdown セクションの対応
