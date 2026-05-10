@@ -81,7 +81,7 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 - `<meta charset="utf-8">` `<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">` `<meta name="theme-color" content="#0f172a">` を必ず含める
 - `<title>`: 「ご馳走場 — YYYY-MM-DD」（サブタイトルなし）
 - ヘッダーの `.brand` は **「ご馳走場」**（英字 `gochisouba` は使わない）
-- 共通 CSS を `<link rel="stylesheet" href="../assets/style.css">` で読み込む
+- 共通 CSS を `<link rel="stylesheet" href="../assets/style.css?v=YYYY-MM-DD">` で読み込む（`?v=日付` はブラウザキャッシュ回避のため必須。レポート日付に置き換える）
 - 外部リンクは `target="_blank" rel="noopener"`
 - ページ末尾に `.bottom-nav`（6リンク）を必ず置く
 - JavaScript は不要。スムーススクロールは CSS の `html { scroll-behavior: smooth; }` のみで賄う
@@ -114,9 +114,9 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 
 ### 手順
 1. Step 2 で生成した `reports/<basename>.html` を **そのままの内容** で `index.html` にコピー（上書き）
-2. ルート直下 (`index.html`) からの CSS パスのみ書き換える:
-   - レポート版: `<link rel="stylesheet" href="../assets/style.css">`
-   - index 版: `<link rel="stylesheet" href="assets/style.css">`
+2. ルート直下 (`index.html`) からの CSS パスのみ書き換える（`?v=日付` のキャッシュバスターは保持）:
+   - レポート版: `<link rel="stylesheet" href="../assets/style.css?v=YYYY-MM-DD">`
+   - index 版: `<link rel="stylesheet" href="assets/style.css?v=YYYY-MM-DD">`
 3. それ以外（タイトル・本文・ナビ）はレポート版と完全一致
 
 ### 注意
