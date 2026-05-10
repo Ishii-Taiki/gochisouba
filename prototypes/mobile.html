@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
-<title>gochisouba — 2026-05-09 マーケットサマリー</title>
+<title>ご馳走場 — YYYY-MM-DD</title>
 <style>
+  /* ===== Design Tokens ===== */
   :root {
     --bg: #f8fafc;
     --bg-elev: #ffffff;
@@ -25,12 +26,15 @@
     --flat-bg: #f1f5f9;
     --warn: #f59e0b;
     --warn-bg: #fef3c7;
+    --danger: #dc2626;
+    --danger-bg: #fee2e2;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
     --radius-sm: 8px;
     --radius: 14px;
     --radius-lg: 20px;
     --gradient-hero: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    --gradient-warn: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -52,41 +56,37 @@
       --flat-bg: #334155;
       --warn: #fbbf24;
       --warn-bg: #78350f;
+      --danger: #f87171;
+      --danger-bg: #7f1d1d;
       --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
       --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.4), 0 8px 10px -6px rgba(0,0,0,0.3);
       --gradient-hero: linear-gradient(135deg, #1e40af 0%, #6b21a8 100%);
+      --gradient-warn: linear-gradient(135deg, #b45309 0%, #991b1b 100%);
     }
   }
-
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--fg);
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--fg);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
-    line-height: 1.65;
-    font-size: 15px;
+    line-height: 1.65; font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
-    padding-bottom: 80px;
+    padding-bottom: 88px;
   }
+  a { color: var(--accent); text-decoration: none; }
 
-  /* ---------- Top header ---------- */
+  /* ===== Top bar ===== */
   .top-bar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: sticky; top: 0; z-index: 50;
     background: rgba(255,255,255,0.85);
     backdrop-filter: saturate(180%) blur(12px);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 10px 16px;
     padding-top: max(10px, env(safe-area-inset-top));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
   }
   @media (prefers-color-scheme: dark) {
     .top-bar { background: rgba(15,23,42,0.85); }
@@ -95,1317 +95,1248 @@
   .top-bar .brand .dot { color: var(--accent); }
   .top-bar .date { font-size: 12px; color: var(--fg-muted); }
 
-  /* ---------- Container ---------- */
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
+  /* ===== Container ===== */
+  .container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
 
-  /* ---------- Hero ---------- */
-  .hero {
-    margin: 16px 0 24px;
-    padding: 24px 20px;
+  /* ===== Hero (今日の投資判断) ===== */
+  .verdict-hero {
+    margin: 16px 0 16px;
+    padding: 22px 20px;
     background: var(--gradient-hero);
     color: #fff;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
-  .hero::after {
-    content: "";
-    position: absolute;
-    top: -40%;
-    right: -20%;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  .verdict-hero::after {
+    content: ""; position: absolute; top: -40%; right: -20%;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
     pointer-events: none;
   }
-  .hero .label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.85;
-    margin-bottom: 6px;
+  .verdict-hero .label {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.85; font-weight: 600;
   }
-  .hero h1 {
-    margin: 0 0 14px;
-    font-size: 22px;
-    line-height: 1.4;
-    font-weight: 700;
+  .verdict-hero h1 {
+    margin: 6px 0 12px; font-size: 22px; line-height: 1.35; font-weight: 800;
   }
-  .hero .meta {
-    display: flex;
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pill {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px; font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  .pill.solid {
+    background: #fff; color: var(--accent); border-color: #fff;
+  }
+  .verdict-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    flex-wrap: wrap;
     margin-top: 14px;
   }
-  .hero .pill {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 5px 11px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    backdrop-filter: blur(8px);
+  .verdict-grid .vcell {
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 10px 12px;
   }
+  .verdict-grid .vcell .k {
+    font-size: 10px; opacity: 0.8; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+  }
+  .verdict-grid .vcell .v {
+    font-size: 14px; font-weight: 700; margin-top: 2px;
+  }
+  .do-dont {
+    margin-top: 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .do-dont .box {
+    background: rgba(0,0,0,0.18);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .do-dont .box .h {
+    font-size: 11px; font-weight: 700; opacity: 0.9; margin-bottom: 4px;
+  }
+  .do-dont .box ul { margin: 0; padding-left: 18px; font-size: 12px; line-height: 1.5; }
+  .next-trigger {
+    margin-top: 12px;
+    background: rgba(0,0,0,0.22);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .next-trigger .k { font-size: 10px; letter-spacing: 0.06em; opacity: 0.85; text-transform: uppercase; font-weight: 700; }
 
-  /* ---------- Section ---------- */
-  section { margin: 28px 0; scroll-margin-top: 70px; }
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 14px;
+  /* ===== Section base ===== */
+  section { margin: 22px 0; scroll-margin-top: 64px; }
+  .sec-h {
+    display: flex; align-items: baseline; gap: 8px;
+    margin: 0 0 10px;
   }
-  .section-head h2 {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-  }
-  .section-head .num {
-    width: 24px; height: 24px;
-    border-radius: 7px;
-    background: var(--accent-soft);
-    color: var(--accent);
+  .sec-h .num {
+    display: inline-flex; width: 22px; height: 22px;
+    background: var(--accent); color: #fff;
+    border-radius: 6px; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 700;
-    display: inline-flex;
-    align-items: center; justify-content: center;
   }
-  .section-head .sub {
-    margin-left: auto;
-    font-size: 12px;
-    color: var(--fg-muted);
+  .sec-h h2 { margin: 0; font-size: 17px; font-weight: 700; }
+  .sec-h .sub { color: var(--fg-muted); font-size: 12px; margin-left: auto; }
+
+  /* ===== Forbidden rules (売買禁止) ===== */
+  .forbidden {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--danger);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .forbidden h3 {
+    margin: 0 0 8px; font-size: 14px;
+    color: var(--danger);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .forbidden ul {
+    margin: 0; padding-left: 0; list-style: none;
+    display: grid; gap: 6px;
+  }
+  .forbidden li {
+    font-size: 13px;
+    padding-left: 22px; position: relative;
+    line-height: 1.55;
+  }
+  .forbidden li::before {
+    content: "🚫"; position: absolute; left: 0; top: 0; font-size: 13px;
   }
 
-  /* ---------- Asset Cards Grid ---------- */
-  .asset-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  /* ===== 脳汁チャンス ===== */
+  .chance-banner {
+    background: var(--gradient-warn);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.55;
   }
+  .chance-list { display: grid; gap: 10px; }
+  .chance {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warn);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .chance .ch-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px; gap: 8px;
+  }
+  .chance .ch-name { font-weight: 700; font-size: 15px; }
+  .chance .ch-tag {
+    font-size: 10px; padding: 3px 8px; border-radius: 999px;
+    font-weight: 700; background: var(--warn-bg); color: var(--warn);
+    letter-spacing: 0.04em;
+  }
+  .chance .ch-scen {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    font-size: 12px;
+  }
+  .chance .ch-scen .s {
+    padding: 8px 10px; border-radius: 8px; line-height: 1.5;
+  }
+  .chance .ch-scen .s.up { background: var(--up-bg); }
+  .chance .ch-scen .s.down { background: var(--down-bg); }
+  .chance .ch-scen .s .k {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 2px;
+  }
+  .chance .ch-scen .s.up .k { color: var(--up); }
+  .chance .ch-scen .s.down .k { color: var(--down); }
+  .chance .ch-note { margin-top: 8px; font-size: 12px; color: var(--fg-muted); line-height: 1.55; }
+
+  /* ===== Sentiment (拡張) ===== */
+  .therm-sent {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .therm-sent .ts-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; margin-bottom: 10px;
+  }
+  .therm-sent .ts-title { font-size: 13px; font-weight: 700; }
+  .ts-boards { display: grid; gap: 8px; margin-bottom: 10px; }
+  .ts-board {
+    background: var(--bg-soft); border-radius: 10px; padding: 10px 12px;
+    border-left: 3px solid var(--flat);
+  }
+  .ts-board.bull { border-left-color: var(--up); }
+  .ts-board.bear { border-left-color: var(--down); }
+  .ts-board .bh {
+    font-size: 12px; font-weight: 700; margin-bottom: 4px;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .ts-board .mood {
+    font-size: 12px; line-height: 1.5;
+  }
+  .ts-board .words {
+    margin-top: 4px; font-size: 11px; color: var(--fg-muted);
+  }
+  .ts-mini {
+    font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 700;
+  }
+  .ts-mini.over { background: #ede9fe; color: #7c3aed; }
+  .ts-mini.calm { background: var(--flat-bg); color: var(--fg-muted); }
+  @media (prefers-color-scheme: dark) {
+    .ts-mini.over { background: #4c1d95; color: #ddd6fe; }
+  }
+  .ts-summary {
+    background: var(--accent-soft); border-radius: 10px; padding: 10px 12px;
+    font-size: 12px; line-height: 1.55;
+  }
+  .ts-summary .k {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .ts-summary { color: #dbeafe; }
+    .ts-summary .k { color: #93c5fd; }
+  }
+
+  /* ===== Trigger scenarios (判断変更トリガー) ===== */
+  .scenarios { display: grid; gap: 10px; }
+  .scenario {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--flat);
+  }
+  .scenario.bull { border-left-color: var(--up); }
+  .scenario.super-bull { border-left-color: #16a34a; }
+  .scenario.wait { border-left-color: var(--warn); }
+  .scenario.bear { border-left-color: var(--down); }
+  .scenario.risk-off { border-left-color: var(--danger); }
+  .scenario.profit { border-left-color: #7c3aed; }
+  .scenario .stitle {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .scenario .badge {
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    background: var(--bg-soft); color: var(--fg-muted);
+    font-weight: 700; letter-spacing: 0.04em;
+  }
+  .scenario.bull .badge { background: var(--up-bg); color: var(--up); }
+  .scenario.super-bull .badge { background: var(--up-bg); color: #16a34a; }
+  .scenario.wait .badge { background: var(--warn-bg); color: var(--warn); }
+  .scenario.bear .badge { background: var(--down-bg); color: var(--down); }
+  .scenario.risk-off .badge { background: var(--danger-bg); color: var(--danger); }
+  .scenario.profit .badge { background: #ede9fe; color: #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .scenario.profit .badge { background: #4c1d95; color: #ddd6fe; }
+  }
+  .srows { display: grid; gap: 6px; font-size: 13px; }
+  .srows .r { display: grid; grid-template-columns: 84px 1fr; gap: 8px; align-items: start; }
+  .srows .r .k { color: var(--fg-muted); font-size: 12px; font-weight: 600; }
+
+  /* ===== Asset action table ===== */
+  .asset-cards { display: grid; gap: 10px; }
   .asset-card {
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 12px 14px;
     box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
   }
-  .asset-card .icon {
-    font-size: 18px;
-    margin-bottom: 4px;
+  .asset-card .head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
   }
   .asset-card .name {
-    font-size: 12px;
-    color: var(--fg-muted);
-    font-weight: 600;
+    font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; gap: 6px;
   }
-  .asset-card .price {
-    font-size: 17px;
-    font-weight: 700;
-    margin: 4px 0 2px;
-    letter-spacing: -0.01em;
+  .asset-card .verdict {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+    background: var(--flat-bg); color: var(--fg-muted);
   }
-  .asset-card .change {
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
-  .asset-card.up .change { color: var(--up); background: var(--up-bg); }
-  .asset-card.down .change { color: var(--down); background: var(--down-bg); }
-  .asset-card.flat .change { color: var(--flat); background: var(--flat-bg); }
-  .asset-card .stripe {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-  }
-  .asset-card.up .stripe { background: var(--up); }
-  .asset-card.down .stripe { background: var(--down); }
-  .asset-card.flat .stripe { background: var(--flat); }
-
-  /* ---------- Temperature ---------- */
-  .temp-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .temp-card {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    box-shadow: var(--shadow);
-  }
-  .temp-card .label {
-    font-size: 12px;
-    color: var(--fg-muted);
-    font-weight: 600;
+  .asset-card .verdict.bull { background: var(--up-bg); color: var(--up); }
+  .asset-card .verdict.bear { background: var(--down-bg); color: var(--down); }
+  .asset-card .verdict.warn { background: var(--warn-bg); color: var(--warn); }
+  .asset-card .action-now {
+    background: var(--bg-soft); border-radius: 8px;
+    padding: 8px 10px; font-size: 13px; font-weight: 600;
     margin-bottom: 8px;
   }
-  .temp-card .value {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-  .temp-card .delta {
+  .asset-card .meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
     font-size: 12px;
-    color: var(--fg-muted);
-    margin-top: 2px;
   }
-  .gauge {
-    margin-top: 10px;
-    height: 6px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #10b981 0%, #fbbf24 50%, #ef4444 100%);
-    position: relative;
+  .asset-card .meta .cell {
+    background: var(--bg-soft); border-radius: 8px; padding: 8px 10px;
   }
-  .gauge .marker {
-    position: absolute;
-    top: -3px;
-    width: 4px; height: 12px;
-    background: var(--fg);
-    border-radius: 2px;
-    transform: translateX(-50%);
+  .asset-card .meta .cell.up { background: var(--up-bg); }
+  .asset-card .meta .cell.down { background: var(--down-bg); }
+  .asset-card .meta .cell .k {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--fg-muted); text-transform: uppercase;
   }
-  .temp-card .note {
-    font-size: 11px;
-    color: var(--fg-subtle);
-    margin-top: 8px;
-    line-height: 1.5;
+  .asset-card .meta .cell.up .k { color: var(--up); }
+  .asset-card .meta .cell.down .k { color: var(--down); }
+  .asset-card .reason {
+    margin-top: 8px; font-size: 12px; color: var(--fg-muted);
+    line-height: 1.55;
   }
 
-  /* ---------- Sector ---------- */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--bg-soft);
-    padding: 4px;
-    border-radius: 10px;
-    margin-bottom: 14px;
-  }
-  .tab {
-    flex: 1;
-    padding: 8px 10px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fg-muted);
-    border-radius: 7px;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    transition: background 0.15s;
-  }
-  .tab.active {
-    background: var(--bg-elev);
-    color: var(--fg);
-    box-shadow: var(--shadow);
-  }
-  .sector-pane { display: none; }
-  .sector-pane.active { display: block; }
-  .sector-list {
+  /* ===== Event branch table ===== */
+  .events { display: grid; gap: 10px; }
+  .event-card {
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    box-shadow: var(--shadow);
     overflow: hidden;
   }
-  .sector-list h3 {
-    margin: 0;
+  .event-card .ehead {
+    display: flex; align-items: center; gap: 8px;
     padding: 10px 14px;
-    font-size: 12px;
-    color: var(--fg-muted);
     background: var(--bg-soft);
     border-bottom: 1px solid var(--border);
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    flex-wrap: wrap;
   }
-  .sector-row {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 6px 12px;
+  .event-card .date {
+    font-size: 11px; font-weight: 700;
+    background: var(--accent); color: #fff;
+    padding: 3px 8px; border-radius: 6px;
   }
-  .sector-row:last-child { border-bottom: none; }
-  .sector-row .name { font-weight: 600; font-size: 14px; }
-  .sector-row .pct {
-    font-weight: 700;
-    font-size: 14px;
-    font-variant-numeric: tabular-nums;
+  .event-card .ename { font-size: 14px; font-weight: 700; flex: 1; min-width: 100px; }
+  .event-card .imp {
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    font-weight: 700; letter-spacing: 0.04em;
   }
-  .sector-row.up .pct { color: var(--up); }
-  .sector-row.down .pct { color: var(--down); }
-  .sector-row .bar {
-    grid-column: 1 / -1;
-    height: 4px;
-    background: var(--bg-soft);
-    border-radius: 999px;
-    overflow: hidden;
+  .event-card .imp.high { background: var(--down-bg); color: var(--down); }
+  .event-card .imp.mid { background: var(--warn-bg); color: var(--warn); }
+  .event-card .imp.low { background: var(--flat-bg); color: var(--fg-muted); }
+  .branch-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
   }
-  .sector-row .bar-fill {
-    height: 100%;
-    border-radius: 999px;
+  .branch {
+    background: var(--bg-elev); padding: 10px 12px; font-size: 12px;
   }
-  .sector-row.up .bar-fill { background: var(--up); }
-  .sector-row.down .bar-fill { background: var(--down); }
-  .sector-row .reason {
-    grid-column: 1 / -1;
-    font-size: 12px;
-    color: var(--fg-muted);
+  .branch.upside { border-left: 3px solid var(--up); }
+  .branch.downside { border-left: 3px solid var(--down); }
+  .branch .h {
+    font-size: 11px; font-weight: 700;
+    margin-bottom: 4px; letter-spacing: 0.04em;
   }
-
-  /* ---------- Stock Picks ---------- */
-  .stock-scroll {
-    margin: 0 -16px;
-    padding: 4px 16px 16px;
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-  .stock-scroll::-webkit-scrollbar { display: none; }
-  .stock-card {
-    flex: 0 0 230px;
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    box-shadow: var(--shadow);
-    scroll-snap-align: start;
-  }
-  .stock-card .theme-tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent);
-    background: var(--accent-soft);
-    padding: 3px 8px;
-    border-radius: 999px;
-    margin-bottom: 8px;
-    letter-spacing: 0.04em;
-  }
-  .stock-card h4 {
-    margin: 0 0 2px;
-    font-size: 15px;
-    font-weight: 700;
-  }
-  .stock-card .ticker {
-    font-size: 11px;
-    color: var(--fg-subtle);
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  .stock-card .px-row {
-    display: flex; align-items: baseline; gap: 8px;
-    margin-bottom: 8px;
-  }
-  .stock-card .px {
-    font-size: 17px; font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .stock-card .ch { font-size: 12px; font-weight: 600; }
-  .stock-card.up .ch { color: var(--up); }
-  .stock-card.down .ch { color: var(--down); }
-  .stock-card.flat .ch { color: var(--flat); }
-  .stock-card .reason {
-    font-size: 12px;
-    color: var(--fg-muted);
-    line-height: 1.5;
-  }
-
-  /* ---------- Topics (Accordion) ---------- */
-  .topic {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-  .topic summary {
-    padding: 14px;
-    cursor: pointer;
-    list-style: none;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 10px;
-    align-items: center;
-  }
-  .topic summary::-webkit-details-marker { display: none; }
-  .topic .badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 999px;
-    letter-spacing: 0.04em;
-  }
-  .topic .badge.high { color: #fff; background: var(--down); }
-  .topic .badge.mid { color: #fff; background: var(--warn); }
-  .topic .badge.low { color: var(--fg-muted); background: var(--bg-soft); }
-  .topic .topic-title { font-weight: 600; font-size: 14px; }
-  .topic .chevron {
-    color: var(--fg-subtle);
-    transition: transform 0.2s;
-  }
-  .topic[open] .chevron { transform: rotate(180deg); }
-  .topic-body {
-    padding: 0 14px 14px;
+  .branch.upside .h { color: var(--up); }
+  .branch.downside .h { color: var(--down); }
+  .pre-post {
     border-top: 1px solid var(--border);
-    margin-top: 0;
-    padding-top: 14px;
-  }
-  .topic-body dl {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 6px 12px;
-    font-size: 13px;
-    margin: 0 0 10px;
-  }
-  .topic-body dt { color: var(--fg-muted); font-weight: 600; }
-  .topic-body dd { margin: 0; }
-  .topic-body .links { font-size: 12px; }
-  .topic-body .links a { color: var(--accent); text-decoration: none; }
-
-  /* ---------- Calendar ---------- */
-  .calendar {
-    position: relative;
-  }
-  .cal-item {
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .cal-item:last-child { border-bottom: none; }
-  .cal-date {
-    text-align: center;
-    background: var(--bg-soft);
-    border-radius: 10px;
-    padding: 6px 4px;
-    align-self: start;
-  }
-  .cal-date .month { font-size: 10px; color: var(--fg-muted); font-weight: 600; }
-  .cal-date .day { font-size: 18px; font-weight: 700; line-height: 1.1; }
-  .cal-date .dow { font-size: 10px; color: var(--fg-muted); }
-  .cal-body .cal-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
-  .cal-body .cal-meta {
-    display: flex; gap: 6px; flex-wrap: wrap;
-    margin: 4px 0 4px;
-  }
-  .cal-body .cal-tag {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 999px;
-    background: var(--bg-soft);
-    color: var(--fg-muted);
-    font-weight: 600;
-  }
-  .cal-body .cal-tag.us { background: #fee2e2; color: #b91c1c; }
-  .cal-body .cal-tag.jp { background: #dbeafe; color: #1e40af; }
-  .cal-body .cal-tag.earnings { background: #fef3c7; color: #92400e; }
-  .cal-body .cal-tag.geopolitics { background: #ede9fe; color: #6b21a8; }
-  @media (prefers-color-scheme: dark) {
-    .cal-body .cal-tag.us { background: #7f1d1d; color: #fecaca; }
-    .cal-body .cal-tag.jp { background: #1e3a8a; color: #bfdbfe; }
-    .cal-body .cal-tag.earnings { background: #78350f; color: #fde68a; }
-    .cal-body .cal-tag.geopolitics { background: #4c1d95; color: #ddd6fe; }
-  }
-  .cal-body .cal-note { font-size: 12px; color: var(--fg-muted); }
-
-  /* ---------- AI Stance ---------- */
-  .stance-hero {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    text-align: center;
-  }
-  .stance-hero .label {
-    font-size: 11px; letter-spacing: 0.08em;
-    color: var(--fg-muted); font-weight: 600;
-    text-transform: uppercase;
-  }
-  .stance-hero .stance {
-    font-size: 28px; font-weight: 800;
-    margin: 6px 0 4px;
-    background: var(--gradient-hero);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .stance-hero .conf {
-    display: inline-block;
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: var(--warn-bg); color: var(--warn);
-    font-weight: 700;
-  }
-  .stance-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .stance-cell {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-  }
-  .stance-cell .name { font-size: 12px; color: var(--fg-muted); font-weight: 600; }
-  .stance-cell .verdict { font-size: 13px; font-weight: 700; margin-top: 4px; }
-  .verdict.bull-strong { color: var(--up); }
-  .verdict.bull { color: var(--up); }
-  .verdict.neutral { color: var(--fg-muted); }
-  .verdict.bear { color: var(--down); }
-
-  /* ---------- Bulletin Board ---------- */
-  .board {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-  }
-  .board h3 {
-    margin: 0 0 8px;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .board .gauge-row {
-    display: grid;
-    grid-template-columns: 60px 1fr 60px;
-    gap: 10px;
-    align-items: center;
-    font-size: 11px;
-    color: var(--fg-muted);
-    margin: 12px 0;
-  }
-  .gauge-bar {
-    height: 8px;
-    background: linear-gradient(90deg, var(--down), var(--flat) 50%, var(--up));
-    border-radius: 999px;
-    position: relative;
-  }
-  .gauge-bar .pin {
-    position: absolute;
-    top: -4px;
-    width: 16px; height: 16px;
-    background: var(--bg-elev);
-    border: 3px solid var(--fg);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    box-shadow: var(--shadow);
-  }
-  .board .keywords {
-    margin-top: 12px;
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
-  .board .kw {
-    font-size: 11px;
-    padding: 3px 9px;
-    background: var(--bg-soft);
-    border-radius: 999px;
-    color: var(--fg-muted);
-    font-weight: 600;
-  }
-  .board .summary {
-    font-size: 13px;
-    color: var(--fg-muted);
-    margin: 6px 0;
-    line-height: 1.6;
-  }
-  .board .interp {
+    padding: 10px 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     font-size: 12px;
-    background: var(--warn-bg);
-    color: var(--warn);
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 10px;
-    line-height: 1.5;
-    font-weight: 500;
+  }
+  .pre-post .col .k {
+    font-size: 10px; font-weight: 700;
+    color: var(--fg-muted); letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 2px;
   }
 
-  /* ---------- Conclusion ---------- */
-  .concl-hero {
-    background: var(--bg-elev);
-    border: 2px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow-lg);
-  }
-  .concl-hero .label {
-    font-size: 11px; letter-spacing: 0.08em;
-    color: var(--accent); font-weight: 700;
-    text-transform: uppercase;
-  }
-  .concl-hero .text {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.7;
-    margin-top: 8px;
-  }
-  .concl-grid {
-    display: grid;
-    gap: 10px;
-  }
-  .concl-card {
+  /* ===== Thermometer ===== */
+  .therm-list { display: grid; gap: 8px; }
+  .therm {
     background: var(--bg-elev);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     padding: 12px 14px;
+    box-shadow: var(--shadow);
+    display: grid; grid-template-columns: 1fr auto; gap: 8px;
+    align-items: center;
   }
-  .concl-card .title {
-    font-size: 12px; font-weight: 700;
-    color: var(--fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .therm .left .k { font-size: 13px; font-weight: 700; }
+  .therm .left .v { font-size: 12px; color: var(--fg-muted); margin-top: 2px; }
+  .therm .left .meaning {
+    margin-top: 6px; font-size: 12px; line-height: 1.5;
+  }
+  .therm .right {
+    text-align: right;
+  }
+  .level {
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  .level.calm { background: var(--up-bg); color: var(--up); }
+  .level.warn { background: var(--warn-bg); color: var(--warn); }
+  .level.high { background: var(--down-bg); color: var(--down); }
+  .level.over { background: #ede9fe; color: #7c3aed; }
+  .level.off { background: var(--danger-bg); color: var(--danger); }
+  @media (prefers-color-scheme: dark) {
+    .level.over { background: #4c1d95; color: #ddd6fe; }
+  }
+
+  /* ===== Watchlist ===== */
+  .watch { display: grid; gap: 10px; }
+  .stock {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stock .top {
+    display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 6px;
   }
-  .concl-card.bull .title { color: var(--up); }
-  .concl-card.bear .title { color: var(--down); }
-  .concl-card .body { font-size: 13px; line-height: 1.6; }
-
-  /* ---------- Disclaimer ---------- */
-  .disclaimer {
-    margin: 24px 0 12px;
-    padding: 14px;
-    background: var(--warn-bg);
-    color: var(--warn);
-    border-radius: var(--radius-sm);
-    font-size: 12px;
-    line-height: 1.6;
+  .stock .nm { font-weight: 700; font-size: 15px; }
+  .stock .role {
+    font-size: 11px; color: var(--fg-muted);
+    background: var(--bg-soft); padding: 2px 8px; border-radius: 999px;
   }
-  .disclaimer strong { font-weight: 700; }
+  .stock .signals {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    margin: 8px 0;
+  }
+  .stock .signals .sig {
+    font-size: 12px; padding: 8px 10px; border-radius: 8px; line-height: 1.5;
+  }
+  .stock .signals .sig.bull { background: var(--up-bg); }
+  .stock .signals .sig.bear { background: var(--down-bg); }
+  .stock .signals .sig .k {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .stock .signals .sig.bull .k { color: var(--up); }
+  .stock .signals .sig.bear .k { color: var(--down); }
+  .stock .act {
+    background: var(--accent-soft); border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; line-height: 1.5;
+    color: var(--accent); font-weight: 600;
+  }
+  @media (prefers-color-scheme: dark) {
+    .stock .act { color: #bfdbfe; }
+  }
 
-  /* ---------- Bottom Nav ---------- */
+  /* ===== News ===== */
+  .news-list { display: grid; gap: 10px; }
+  .news {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .news .nh {
+    display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px;
+  }
+  .news .imp {
+    flex-shrink: 0;
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    font-weight: 700; letter-spacing: 0.04em;
+  }
+  .news .imp.high { background: var(--down-bg); color: var(--down); }
+  .news .imp.mid { background: var(--warn-bg); color: var(--warn); }
+  .news .imp.low { background: var(--flat-bg); color: var(--fg-muted); }
+  .news .title { font-size: 14px; font-weight: 700; line-height: 1.45; }
+  .news .nrows { display: grid; gap: 4px; font-size: 12px; }
+  .news .nrows .r { display: grid; grid-template-columns: 88px 1fr; gap: 8px; }
+  .news .nrows .r .k { color: var(--fg-muted); font-weight: 600; }
+
+  /* ===== Concl 3-line ===== */
+  .concl-3 {
+    background: var(--gradient-hero);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-lg);
+  }
+  .concl-3 .label {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.85; font-weight: 700; margin-bottom: 8px;
+  }
+  .concl-3 ol { margin: 0; padding-left: 20px; line-height: 1.7; font-weight: 600; }
+
+  /* ===== Details (sources) ===== */
+  details.sources, details.archive {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px; box-shadow: var(--shadow);
+  }
+  details.sources summary, details.archive summary {
+    cursor: pointer; font-weight: 700; font-size: 14px;
+    list-style: none;
+  }
+  details.sources summary::-webkit-details-marker,
+  details.archive summary::-webkit-details-marker { display: none; }
+  details.sources[open] summary, details.archive[open] summary { margin-bottom: 10px; }
+  details.sources ul, details.archive ul {
+    margin: 0; padding-left: 18px; font-size: 13px;
+  }
+
+  /* ===== Bottom nav ===== */
   .bottom-nav {
-    position: fixed;
-    left: 0; right: 0;
-    bottom: 0;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: saturate(180%) blur(14px);
-    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-top: 1px solid var(--border);
     padding: 8px 4px;
     padding-bottom: max(8px, env(safe-area-inset-bottom));
-    z-index: 50;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
   }
   @media (prefers-color-scheme: dark) {
-    .bottom-nav { background: rgba(15,23,42,0.95); }
+    .bottom-nav { background: rgba(15,23,42,0.92); }
   }
   .bottom-nav a {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
     color: var(--fg-muted);
-    font-size: 10px;
-    padding: 4px 2px;
-    border-radius: 8px;
-    font-weight: 600;
-    line-height: 1.2;
+    font-size: 10px; font-weight: 600;
+    padding: 4px 2px; border-radius: 8px;
   }
-  .bottom-nav a .ico {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 2px;
-  }
-  .bottom-nav a:hover { color: var(--accent); background: var(--bg-soft); }
-
-  /* ---------- Sources ---------- */
-  .sources {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    margin-top: 16px;
-  }
-  .sources summary {
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--fg-muted);
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-  }
-  .sources summary::-webkit-details-marker { display: none; }
-  .sources ul { padding-left: 16px; margin: 12px 0 0; font-size: 12px; }
-  .sources li { margin: 6px 0; }
-  .sources a { color: var(--accent); }
-
-  /* ---------- Misc ---------- */
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  .bottom-nav a .ic { font-size: 18px; }
+  .bottom-nav a:active { background: var(--bg-soft); color: var(--accent); }
 </style>
 </head>
 <body>
 
 <header class="top-bar">
-  <div>
-    <div class="brand">gochisouba<span class="dot">.</span></div>
-  </div>
-  <div class="date">2026-05-09 (土)</div>
+  <div class="brand">ご馳走場<span class="dot">.</span></div>
+  <div class="date">YYYY-MM-DD（曜）作成</div>
 </header>
 
 <main class="container">
 
-  <!-- ===== Hero ===== -->
-  <section class="hero">
-    <div class="label">📊 ひとことで言うと</div>
-    <h1>米雇用統計とAI需要で米株は最高値、原油・金は地政学リスクで同時高。<br>「上昇継続だが過熱感も濃厚」な週末。</h1>
-    <div class="meta">
-      <span class="pill">📈 やや強気</span>
-      <span class="pill">🎯 確信度: 中</span>
-      <span class="pill">🌏 リスク: 中東 / 過熱</span>
-    </div>
-  </section>
+  <!-- ===== 1. 今日の投資判断 ===== -->
+  <section id="verdict">
+    <div class="verdict-hero">
+      <div class="label">今日の投資判断</div>
+      <h1>イベント前は守り中心 — 既存ポジションは維持、追加は CPI 通過後に</h1>
+      <div class="pill-row">
+        <span class="pill solid">⚖️ やや強気</span>
+        <span class="pill">🎯 確信度: 中</span>
+        <span class="pill">📦 通常の 60〜70%</span>
+      </div>
 
-  <!-- ===== 1. Asset Cards ===== -->
-  <section id="market">
-    <div class="section-head">
-      <span class="num">1</span>
-      <h2>主要マーケット</h2>
-      <span class="sub">5/8 終値ベース</span>
-    </div>
-    <div class="asset-grid">
-      <div class="asset-card down">
-        <div class="stripe"></div>
-        <div class="icon">🇯🇵</div>
-        <div class="name">日経平均</div>
-        <div class="price">62,713.65</div>
-        <span class="change">▼ 120 / -0.19%</span>
+      <div class="verdict-grid">
+        <div class="vcell">
+          <div class="k">推奨行動</div>
+          <div class="v">既存維持・追加は小さく</div>
+        </div>
+        <div class="vcell">
+          <div class="k">新規買い</div>
+          <div class="v">CPI 通過まで原則停止</div>
+        </div>
+        <div class="vcell">
+          <div class="k">利確方針</div>
+          <div class="v">含み益 +15% 以上は 1/3 部分利確</div>
+        </div>
+        <div class="vcell">
+          <div class="k">損切り条件</div>
+          <div class="v">S&P500 -1.5% / VIX 22 超</div>
+        </div>
       </div>
-      <div class="asset-card up">
-        <div class="stripe"></div>
-        <div class="icon">🇺🇸</div>
-        <div class="name">S&amp;P500</div>
-        <div class="price">7,398.93</div>
-        <span class="change">▲ +0.84%</span>
+
+      <div class="do-dont">
+        <div class="box">
+          <div class="h">✅ 今日やること</div>
+          <ul>
+            <li>含み益銘柄の損切り水準を引き上げ</li>
+            <li>キャッシュ比率を 25% 以上に確認</li>
+            <li>CPI 予想と前回値を再確認</li>
+          </ul>
+        </div>
+        <div class="box">
+          <div class="h">⛔ 今日やらないこと</div>
+          <ul>
+            <li>レバレッジ商品の追加買い</li>
+            <li>急騰後の寄り付き飛びつき</li>
+            <li>CPI 直前のナンピン</li>
+          </ul>
+        </div>
       </div>
-      <div class="asset-card up">
-        <div class="stripe"></div>
-        <div class="icon">💻</div>
-        <div class="name">ナスダック</div>
-        <div class="price">26,247.08</div>
-        <span class="change">▲ +1.71%</span>
-      </div>
-      <div class="asset-card down">
-        <div class="stripe"></div>
-        <div class="icon">₿</div>
-        <div class="name">Bitcoin</div>
-        <div class="price">$79,743</div>
-        <span class="change">▼ -1.6%</span>
-      </div>
-      <div class="asset-card flat">
-        <div class="stripe"></div>
-        <div class="icon">💴</div>
-        <div class="name">ドル円</div>
-        <div class="price">156.66</div>
-        <span class="change">● -0.15%</span>
-      </div>
-      <div class="asset-card up">
-        <div class="stripe"></div>
-        <div class="icon">🥇</div>
-        <div class="name">金</div>
-        <div class="price">$4,706</div>
-        <span class="change">▲ +0.43%</span>
-      </div>
-      <div class="asset-card up">
-        <div class="stripe"></div>
-        <div class="icon">🛢️</div>
-        <div class="name">原油 (WTI)</div>
-        <div class="price">$95.64</div>
-        <span class="change">▲ +0.88%</span>
-      </div>
-      <div class="asset-card up">
-        <div class="stripe"></div>
-        <div class="icon">📊</div>
-        <div class="name">Brent</div>
-        <div class="price">$101.26</div>
-        <span class="change">▲ +1.20%</span>
+
+      <div class="next-trigger">
+        <div class="k">⏰ 次に判断が変わるイベント</div>
+        <div>5/14（木）21:30 JST — 米CPI（4月）。結果次第でスタンスを再評価。</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 2. Temperature ===== -->
-  <section id="temp">
-    <div class="section-head">
+  <!-- ===== 2. 今日は控えたいこと ===== -->
+  <section id="caution">
+    <div class="sec-h">
       <span class="num">2</span>
-      <h2>相場の温度感</h2>
-      <span class="sub">不安度と金利</span>
+      <h2>今日は控えたいこと</h2>
+      <span class="sub">やらないほうが良いこと</span>
     </div>
-    <div class="temp-grid">
-      <div class="temp-card">
-        <div class="label">VIX（米国の不安度）</div>
-        <div class="value">14.2</div>
-        <div class="delta">前日比 -0.4</div>
-        <div class="gauge"><div class="marker" style="left:24%"></div></div>
-        <div class="note">20以下は落ち着いた状態。最高値圏でも警戒感は低め。</div>
-      </div>
-      <div class="temp-card">
-        <div class="label">日経VI（日本株の不安度）</div>
-        <div class="value">18.5</div>
-        <div class="delta">前日比 +0.7</div>
-        <div class="gauge"><div class="marker" style="left:32%"></div></div>
-        <div class="note">日本も平静圏。月曜寄りギャップ次第で変動余地。</div>
-      </div>
-      <div class="temp-card">
-        <div class="label">米10年債利回り</div>
-        <div class="value">4.42%</div>
-        <div class="delta">前日比 -0.03%</div>
-        <div class="gauge" style="background:linear-gradient(90deg,#10b981 0%,#fbbf24 70%,#ef4444 100%)"><div class="marker" style="left:62%"></div></div>
-        <div class="note">高めで推移。株式バリュエーションの重し。</div>
-      </div>
-      <div class="temp-card">
-        <div class="label">日本10年債利回り</div>
-        <div class="value">1.68%</div>
-        <div class="delta">前日比 +0.02%</div>
-        <div class="gauge" style="background:linear-gradient(90deg,#10b981 0%,#fbbf24 70%,#ef4444 100%)"><div class="marker" style="left:48%"></div></div>
-        <div class="note">日銀政策正常化で緩やかに上昇傾向。</div>
-      </div>
+    <div class="forbidden">
+      <h3>🧯 今日の自制リスト</h3>
+      <ul>
+        <li>米CPI 発表（5/14）の前日・当日に追加買いを入れない</li>
+        <li>急騰後の寄り付きで飛びつかない（特に半導体・AI 関連）</li>
+        <li>掲示板が極端に楽観のときにレバレッジ商品を増やさない</li>
+        <li>含み損銘柄に CPI 前ナンピンしない</li>
+        <li>原油・金・VIX が同時に上昇しているときにリスク資産を増やさない</li>
+        <li>自分の運用ルール外の短期売買はしない（特に急落後の逆張り）</li>
+      </ul>
     </div>
   </section>
 
-  <!-- ===== 3. Sectors ===== -->
-  <section id="sector">
-    <div class="section-head">
+  <!-- ===== 3. 脳汁チャンス ===== -->
+  <section id="chance">
+    <div class="sec-h">
       <span class="num">3</span>
-      <h2>セクター別の動き</h2>
+      <h2>脳汁チャンス</h2>
+      <span class="sub">投機的に大きく振れうる対象</span>
     </div>
-    <div class="tabs">
-      <button class="tab active" data-tab="us">🇺🇸 米国</button>
-      <button class="tab" data-tab="jp">🇯🇵 日本</button>
+    <div class="chance-banner">
+      🔥 短期で激しく上下しやすい銘柄・商品。少額・遊び枠でのみ。本玉での参戦は推奨しない。
     </div>
+    <div class="chance-list">
 
-    <div class="sector-pane active" data-pane="us">
-      <div class="sector-list">
-        <h3>📈 上昇上位</h3>
-        <div class="sector-row up">
-          <span class="name">テクノロジー</span>
-          <span class="pct">+1.8%</span>
-          <div class="bar"><div class="bar-fill" style="width:90%"></div></div>
-          <div class="reason">AI需要好調、半導体株が牽引</div>
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">SOXL（米半導体3倍ブル ETF）</div>
+          <div class="ch-tag">レバETF</div>
         </div>
-        <div class="sector-row up">
-          <span class="name">通信サービス</span>
-          <span class="pct">+1.4%</span>
-          <div class="bar"><div class="bar-fill" style="width:70%"></div></div>
-          <div class="reason">大型プラットフォームに買い</div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>NVIDIA 決算上振れ + CPI 下振れで 1日 +10% 級も</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>CPI 上振れ・SOX 急落で 1日 -10〜-15%</div>
+          </div>
         </div>
-        <div class="sector-row up">
-          <span class="name">一般消費財</span>
-          <span class="pct">+0.9%</span>
-          <div class="bar"><div class="bar-fill" style="width:45%"></div></div>
-          <div class="reason">雇用統計上振れで消費期待</div>
-        </div>
+        <div class="ch-note">半導体センチメントの最大増幅器。CPI と NVDA 決算を跨ぐ持ち越しは博打。</div>
       </div>
-      <div class="sector-list" style="margin-top:10px">
-        <h3>📉 下落上位</h3>
-        <div class="sector-row down">
-          <span class="name">公益</span>
-          <span class="pct">-0.4%</span>
-          <div class="bar"><div class="bar-fill" style="width:25%"></div></div>
-          <div class="reason">金利高で配当株が敬遠</div>
-        </div>
-        <div class="sector-row down">
-          <span class="name">不動産</span>
-          <span class="pct">-0.3%</span>
-          <div class="bar"><div class="bar-fill" style="width:18%"></div></div>
-          <div class="reason">同上、金利感応度の高い分野</div>
-        </div>
-        <div class="sector-row down">
-          <span class="name">生活必需品</span>
-          <span class="pct">-0.1%</span>
-          <div class="bar"><div class="bar-fill" style="width:8%"></div></div>
-          <div class="reason">リスクオン局面で資金流出</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="sector-pane" data-pane="jp">
-      <div class="sector-list">
-        <h3>📈 上昇上位</h3>
-        <div class="sector-row up">
-          <span class="name">海運</span>
-          <span class="pct">+1.2%</span>
-          <div class="bar"><div class="bar-fill" style="width:85%"></div></div>
-          <div class="reason">ホルムズ海峡懸念で運賃上昇期待</div>
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">TQQQ（Nasdaq100 3倍ブル ETF）</div>
+          <div class="ch-tag">レバETF</div>
         </div>
-        <div class="sector-row up">
-          <span class="name">銀行</span>
-          <span class="pct">+0.8%</span>
-          <div class="bar"><div class="bar-fill" style="width:55%"></div></div>
-          <div class="reason">日本長期金利の上昇</div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>金利低下 + Nasdaq 高値更新で 1日 +5〜8%</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>金利急騰でグロース総崩れ、1日 -5〜10%</div>
+          </div>
         </div>
-        <div class="sector-row up">
-          <span class="name">商社</span>
-          <span class="pct">+0.5%</span>
-          <div class="bar"><div class="bar-fill" style="width:35%"></div></div>
-          <div class="reason">原油・資源高の恩恵</div>
-        </div>
+        <div class="ch-note">米金利と一蓮托生。FOMC 系イベントのある週はボラ拡大。</div>
       </div>
-      <div class="sector-list" style="margin-top:10px">
-        <h3>📉 下落上位</h3>
-        <div class="sector-row down">
-          <span class="name">電気機器（半導体製造装置）</span>
-          <span class="pct">-0.6%</span>
-          <div class="bar"><div class="bar-fill" style="width:40%"></div></div>
-          <div class="reason">5/7の急騰の利食い売り</div>
+
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">楽天日本株4.3倍ブル（9I31115A）</div>
+          <div class="ch-tag">高レバ投信</div>
         </div>
-        <div class="sector-row down">
-          <span class="name">鉄鋼</span>
-          <span class="pct">-0.5%</span>
-          <div class="bar"><div class="bar-fill" style="width:33%"></div></div>
-          <div class="reason">中国景気指標が弱含み</div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>米株続伸 + 円安加速で日経爆騰 → 1日 +8〜12%</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>急速な円高 + 米株急落で 1日 -10% 超</div>
+          </div>
         </div>
-        <div class="sector-row down">
-          <span class="name">不動産</span>
-          <span class="pct">-0.3%</span>
-          <div class="bar"><div class="bar-fill" style="width:20%"></div></div>
-          <div class="reason">金利上昇で重し</div>
-        </div>
+        <div class="ch-note">掲示板過熱中。逆指標的に「脳汁」を浴びている人が多いほど反落リスク高。</div>
       </div>
+
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">UVXY（VIX 短期1.5倍 ETF）</div>
+          <div class="ch-tag">ボラ商品</div>
+        </div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>VIX 急騰イベントで 1日 +20〜40%</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>イベント通過で日次減価。何もなければ毎日マイナス</div>
+          </div>
+        </div>
+        <div class="ch-note">CPI 上振れリスクのヘッジ枠としてだけ使う。長期保有は禁忌。</div>
+      </div>
+
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">NVIDIA（NVDA）— 決算ギャンブル</div>
+          <div class="ch-tag">決算プレイ</div>
+        </div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>5/16 ガイダンス上方 → ギャップアップ +8〜12%</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>慎重ガイダンスで -8〜-15% ギャップダウン</div>
+          </div>
+        </div>
+        <div class="ch-note">期待値は読めない。決算ストラドル相当の博打。本玉では絶対に張らない。</div>
+      </div>
+
+      <div class="chance">
+        <div class="ch-head">
+          <div class="ch-name">Bitcoin（BTC）— 短期スイング</div>
+          <div class="ch-tag">暗号資産</div>
+        </div>
+        <div class="ch-scen">
+          <div class="s up">
+            <div class="k">脳汁シナリオ</div>
+            <div>$72,000 ブレイク + リスクオンで 1〜2日 +10%</div>
+          </div>
+          <div class="s down">
+            <div class="k">地獄シナリオ</div>
+            <div>$65,000 割れでオーダーカスケード、-10〜15%</div>
+          </div>
+        </div>
+        <div class="ch-note">レンジ抜けるとボラ拡大。週末に動きやすく、月曜寄りギャップに注意。</div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ===== 4. Stock Picks ===== -->
-  <section id="picks">
-    <div class="section-head">
+  <!-- ===== 4. こうなったら、こう判断する ===== -->
+  <section id="triggers">
+    <div class="sec-h">
       <span class="num">4</span>
-      <h2>注目銘柄ピックアップ</h2>
-      <span class="sub">←横スクロール</span>
+      <h2>こうなったら、こう判断する</h2>
+      <span class="sub">条件 → 判断</span>
     </div>
-    <div class="stock-scroll">
-      <div class="stock-card up">
-        <span class="theme-tag">AI / 半導体</span>
-        <h4>NVIDIA</h4>
-        <div class="ticker">NVDA · NASDAQ</div>
-        <div class="px-row">
-          <span class="px">$148.50</span>
-          <span class="ch">▲ +2.3%</span>
+    <div class="scenarios">
+
+      <div class="scenario bull">
+        <div class="stitle">📈 こうなったら「買い」 <span class="badge">BUY</span></div>
+        <div class="srows">
+          <div class="r"><div class="k">条件</div><div>CPI 想定どおり〜下振れ（+3.0% 以下）+ 米10年金利 4.4% 以下 + VIX 18 以下</div></div>
+          <div class="r"><div class="k">起きやすい相場</div><div>株高継続、グロース・半導体主導、ドル安方向</div></div>
+          <div class="r"><div class="k">自分の判断</div><div>既存維持＋押し目（-2% 程度）で追加。Nasdaq・半導体を厚めに</div></div>
+          <div class="r"><div class="k">確認指標</div><div>S&P500、米10年金利、VIX、SOX</div></div>
         </div>
-        <div class="reason">AI需要のバロメーター。ナスダック最高値の主役。5/14決算が次の山場。</div>
       </div>
-      <div class="stock-card down">
-        <span class="theme-tag">AI / 半導体</span>
-        <h4>東京エレクトロン</h4>
-        <div class="ticker">8035 · 東証プライム</div>
-        <div class="px-row">
-          <span class="px">¥38,500</span>
-          <span class="ch">▼ -0.8%</span>
+
+      <div class="scenario wait">
+        <div class="stitle">🟨 こうなったら「様子見」 <span class="badge">WAIT</span></div>
+        <div class="srows">
+          <div class="r"><div class="k">条件</div><div>CPI 結果待ち / 指標まちまち / 金利が方向感欠く / 出来高低下</div></div>
+          <div class="r"><div class="k">起きやすい相場</div><div>狭いレンジ、決め手不在、流動性低下</div></div>
+          <div class="r"><div class="k">自分の判断</div><div>新規・追加なし。既存維持のみ。キャッシュ 25% 以上温存</div></div>
+          <div class="r"><div class="k">確認指標</div><div>VIX、出来高、ドル円、米10年金利</div></div>
         </div>
-        <div class="reason">5/7に+8%急騰した反動。AI設備投資の追い風は継続。</div>
       </div>
-      <div class="stock-card up">
-        <span class="theme-tag">原油 / エネルギー</span>
-        <h4>Exxon Mobil</h4>
-        <div class="ticker">XOM · NYSE</div>
-        <div class="px-row">
-          <span class="px">$122.30</span>
-          <span class="ch">▲ +1.1%</span>
+
+      <div class="scenario bear">
+        <div class="stitle">📉 こうなったら「売り」 <span class="badge">SELL</span></div>
+        <div class="srows">
+          <div class="r"><div class="k">条件</div><div>CPI 上振れ + 米10年金利 4.7% 超 + VIX 22 超 / または地政学ショック</div></div>
+          <div class="r"><div class="k">起きやすい相場</div><div>株安、グロース売り、ドル高または円高急変、リスクオフ</div></div>
+          <div class="r"><div class="k">自分の判断</div><div>レバ縮小、含み益の 1/3 利確、新規買い停止、キャッシュ 40% へ</div></div>
+          <div class="r"><div class="k">確認指標</div><div>米10年金利、VIX、Nasdaq、ドル円、金</div></div>
         </div>
-        <div class="reason">中東緊迫で原油高の直接恩恵。配当も安定。</div>
       </div>
-      <div class="stock-card up">
-        <span class="theme-tag">ディフェンシブ</span>
-        <h4>NTT</h4>
-        <div class="ticker">9432 · 東証プライム</div>
-        <div class="px-row">
-          <span class="px">¥165.0</span>
-          <span class="ch">▲ +0.3%</span>
-        </div>
-        <div class="reason">過熱相場の避難先として注目。安定配当。</div>
-      </div>
-      <div class="stock-card up">
-        <span class="theme-tag">AI関連</span>
-        <h4>ソフトバンクG</h4>
-        <div class="ticker">9984 · 東証プライム</div>
-        <div class="px-row">
-          <span class="px">¥18,200</span>
-          <span class="ch">▲ +1.5%</span>
-        </div>
-        <div class="reason">Arm株高とAI投資テーマで継続買い。</div>
-      </div>
+
     </div>
-    <p style="font-size:11px;color:var(--fg-subtle);margin:0 0 0 4px">※ 売買推奨ではなく、テーマを理解するための例示</p>
   </section>
 
-  <!-- ===== 5. Topics ===== -->
-  <section id="topics">
-    <div class="section-head">
+  <!-- ===== 5. マーケット温度計 ===== -->
+  <section id="therm">
+    <div class="sec-h">
       <span class="num">5</span>
-      <h2>関連する情報</h2>
-      <span class="sub">タップで展開</span>
+      <h2>マーケット温度計</h2>
+      <span class="sub">数値 → 行動への意味</span>
     </div>
+    <div class="therm-list">
 
-    <details class="topic" open>
-      <summary>
-        <span class="badge high">重要度 高</span>
-        <span class="topic-title">米4月雇用統計が予想を大きく上回り、米株が史上最高値</span>
-        <span class="chevron">▼</span>
-      </summary>
-      <div class="topic-body">
-        <dl>
-          <dt>関連</dt><dd>S&amp;P500、ナスダック、ドル円、金</dd>
-          <dt>要約</dt><dd>4月の非農業部門雇用者数+11.5万人（予想+6.5万人）。失業率4.3%。労働市場の底堅さを確認</dd>
-          <dt>強気材料</dt><dd>景気後退懸念の後退、企業収益見通し改善</dd>
-          <dt>弱気材料</dt><dd>利下げ期待の後退、賃金インフレ警戒</dd>
-        </dl>
-        <p class="links">📎 <a href="https://www.thestreet.com/latest-news/stock-market-today-may-8-2026-updates" target="_blank" rel="noopener">TheStreet</a> / <a href="https://finance.yahoo.com/markets/stocks/articles/stock-market-news-may-8-134000511.html" target="_blank" rel="noopener">Yahoo Finance</a></p>
-      </div>
-    </details>
+      <!-- 掲示板の民の動向（最上段に配置）-->
+      <div class="therm-sent">
+        <div class="ts-head">
+          <div class="ts-title">📣 掲示板の民の動向</div>
+          <span class="level over">逆指標：過熱</span>
+        </div>
+        <div class="ts-boards">
 
-    <details class="topic">
-      <summary>
-        <span class="badge high">重要度 高</span>
-        <span class="topic-title">米イランがホルムズ海峡で交戦再開、停戦合意が揺らぐ</span>
-        <span class="chevron">▼</span>
-      </summary>
-      <div class="topic-body">
-        <dl>
-          <dt>関連</dt><dd>原油、金、株式</dd>
-          <dt>要約</dt><dd>米軍はイランの攻撃を迎撃、自衛のための報復攻撃を実施。トランプ氏は停戦は維持中と表明</dd>
-          <dt>影響</dt><dd>Brent +1.20% で$101.26、WTI +0.88% で$95.64。金もスポットで$4,700台後半</dd>
-        </dl>
-        <p class="links">📎 <a href="https://www.cnbc.com/amp/2026/05/08/oil-prices-today-wti-brent-us-iran-fire-war-hormuz-ceasefire.html" target="_blank" rel="noopener">CNBC</a></p>
-      </div>
-    </details>
+          <div class="ts-board bull">
+            <div class="bh">
+              🐂 楽天日本株4.3倍ブル（9I31115A）
+              <span class="ts-mini over">楽観過熱</span>
+            </div>
+            <div class="mood">
+              買い煽り多発、勝ち報告のスクショ連投。下げ予想は袋叩き。FOMO 強。投稿数は前週比 +35%。
+            </div>
+            <div class="words">注目ワード：「青天井」「Nasdaq最強」「全ツッパ」「乗るしかない」</div>
+          </div>
 
-    <details class="topic">
-      <summary>
-        <span class="badge mid">重要度 中</span>
-        <span class="topic-title">ミシガン大消費者信頼感、ガソリン高で48.2の歴史的低水準</span>
-        <span class="chevron">▼</span>
-      </summary>
-      <div class="topic-body">
-        <dl>
-          <dt>関連</dt><dd>米株（小売・消費）、ドル円</dd>
-          <dt>要約</dt><dd>5月速報の信頼感指数48.2、4月から-3.2%。中東戦争由来のガソリン価格急騰が家計を直撃</dd>
-        </dl>
-      </div>
-    </details>
+          <div class="ts-board bear">
+            <div class="bh">
+              🐻 楽天日本株3.8倍ベアIII（9I311249）
+              <span class="ts-mini calm">沈黙・諦め</span>
+            </div>
+            <div class="mood">
+              投稿数激減、損切り報告と「もう無理」「休む」がメイン。逆張り勢の弾切れ感が強い。
+            </div>
+            <div class="words">注目ワード：「損切り」「諦め」「休む」「養分」</div>
+          </div>
 
-    <details class="topic">
-      <summary>
-        <span class="badge high">重要度 高</span>
-        <span class="topic-title">日経平均、5/7に過去最大級の上昇後 5/8は小反落</span>
-        <span class="chevron">▼</span>
-      </summary>
-      <div class="topic-body">
-        <dl>
-          <dt>関連</dt><dd>日本株、半導体株、ドル円</dd>
-          <dt>要約</dt><dd>5/7に+3,320円（+5.58%）の歴史的上げで初の62,833円。5/8は-120円の利食い反落</dd>
-        </dl>
+        </div>
+        <div class="ts-summary">
+          <div class="k">2掲示板の総括</div>
+          <div>強気側が極端に過熱・弱気側が沈黙という、教科書的な楽観の終盤局面に近い構図。逆指標としては明確に「過熱」シグナルで、新規買い抑制・含み益の一部利確が妥当。ベア側の投稿が増え始めたら反転の前兆として要注視。</div>
+        </div>
       </div>
-    </details>
 
-    <details class="topic">
-      <summary>
-        <span class="badge mid">重要度 中</span>
-        <span class="topic-title">FRB（米連邦準備制度）トップ交代観測、金融政策の不確実性</span>
-        <span class="chevron">▼</span>
-      </summary>
-      <div class="topic-body">
-        <dl>
-          <dt>関連</dt><dd>米株、金、ドル円、米国債</dd>
-          <dt>要約</dt><dd>1週間後にFRBの歴史的なリーダーシップ交代観測。中期的な金融政策スタンスの不確実性</dd>
-        </dl>
+      <div class="therm">
+        <div class="left">
+          <div class="k">米VIX（米恐怖指数）</div>
+          <div class="v">17.13（前日 +0.4）</div>
+          <div class="meaning">市場の恐怖は限定的。ただし CPI 直前の急変には注意。22 超でリスクオフ警戒。</div>
+        </div>
+        <div class="right"><span class="level calm">平静</span></div>
       </div>
-    </details>
+
+      <div class="therm">
+        <div class="left">
+          <div class="k">日経VI（日本株の不安度）</div>
+          <div class="v">18.5（前日 -0.2）</div>
+          <div class="meaning">米VIX とほぼ連動で平静。日銀イベント前後でジワっと上昇しやすい。</div>
+        </div>
+        <div class="right"><span class="level calm">平静</span></div>
+      </div>
+
+      <div class="therm">
+        <div class="left">
+          <div class="k">米10年債利回り</div>
+          <div class="v">4.42%（前日 +0.02pt）</div>
+          <div class="meaning">高止まり継続。4.7% 超で株式・グロースの重しが急増。4.2% 割れで追い風。</div>
+        </div>
+        <div class="right"><span class="level warn">警戒</span></div>
+      </div>
+
+      <div class="therm">
+        <div class="left">
+          <div class="k">日本10年債利回り</div>
+          <div class="v">0.95%（前日 ±0）</div>
+          <div class="meaning">日銀正常化観測で高止まり。1.0% 超で円高・銀行株上昇のスイッチ。</div>
+        </div>
+        <div class="right"><span class="level warn">警戒</span></div>
+      </div>
+
+    </div>
   </section>
 
-  <!-- ===== 6. Calendar ===== -->
-  <section id="calendar">
-    <div class="section-head">
+  <!-- ===== 6. 今週のイベント ===== -->
+  <section id="events">
+    <div class="sec-h">
       <span class="num">6</span>
-      <h2>来週の予定</h2>
-      <span class="sub">5/12〜5/16</span>
+      <h2>今週のイベント</h2>
+      <span class="sub">結果 → 行動</span>
     </div>
-    <div class="calendar">
+    <div class="events">
 
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">12</div>
-          <div class="dow">月</div>
+      <div class="event-card">
+        <div class="ehead">
+          <span class="date">5/14 木 21:30</span>
+          <span class="ename">米CPI（4月）</span>
+          <span class="imp high">重要度 高</span>
         </div>
-        <div class="cal-body">
-          <div class="cal-title">Walmart 決算（米市場後）</div>
-          <div class="cal-meta">
-            <span class="cal-tag earnings">決算</span>
-            <span class="cal-tag us">米国</span>
+        <div class="branch-grid">
+          <div class="branch upside">
+            <div class="h">▲ 上振れ（+3.2% 超）</div>
+            <div>金利上昇、株安、グロース売り、ドル高</div>
           </div>
-          <div class="cal-note">消費の体温計。ガイダンス次第で消費関連全体に波及</div>
+          <div class="branch downside">
+            <div class="h">▼ 下振れ（+2.8% 以下）</div>
+            <div>金利低下、株高、リスクオン、ドル安</div>
+          </div>
+        </div>
+        <div class="pre-post">
+          <div class="col">
+            <div class="k">イベント前</div>
+            <div>追加買いを停止。レバを縮小。キャッシュ 25% 確保</div>
+          </div>
+          <div class="col">
+            <div class="k">イベント後</div>
+            <div>結果に応じて株式比率を ±10% 調整。下振れなら追加投入</div>
+          </div>
         </div>
       </div>
 
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">13</div>
-          <div class="dow">火</div>
+      <div class="event-card">
+        <div class="ehead">
+          <span class="date">5/15 金 08:50</span>
+          <span class="ename">日本 GDP（1Q 速報）</span>
+          <span class="imp mid">重要度 中</span>
         </div>
-        <div class="cal-body">
-          <div class="cal-title">米CPI（消費者物価指数）4月発表</div>
-          <div class="cal-meta">
-            <span class="cal-tag us">米国</span>
-            <span class="cal-tag">21:30 JST</span>
+        <div class="branch-grid">
+          <div class="branch upside">
+            <div class="h">▲ 上振れ</div>
+            <div>日銀利上げ観測強まる、円高、日経押し戻り</div>
           </div>
-          <div class="cal-note">前年比+2.7%予想。上振れなら金利急騰で株式に逆風</div>
+          <div class="branch downside">
+            <div class="h">▼ 下振れ</div>
+            <div>緩和継続観測、円安、日経底堅い</div>
+          </div>
+        </div>
+        <div class="pre-post">
+          <div class="col">
+            <div class="k">イベント前</div>
+            <div>日本株の追加なし。為替ヘッジを確認</div>
+          </div>
+          <div class="col">
+            <div class="k">イベント後</div>
+            <div>ドル円の反応で日本株比率を見直し</div>
+          </div>
         </div>
       </div>
 
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">13</div>
-          <div class="dow">火</div>
+      <div class="event-card">
+        <div class="ehead">
+          <span class="date">5/16 金 7:00</span>
+          <span class="ename">NVIDIA 決算</span>
+          <span class="imp high">重要度 高</span>
         </div>
-        <div class="cal-body">
-          <div class="cal-title">G7外相会合</div>
-          <div class="cal-meta">
-            <span class="cal-tag geopolitics">地政学</span>
+        <div class="branch-grid">
+          <div class="branch upside">
+            <div class="h">▲ ガイダンス上方修正</div>
+            <div>AI・半導体相場再加速、Nasdaq 高値更新</div>
           </div>
-          <div class="cal-note">ホルムズ海峡情勢への共同声明に注目</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">14</div>
-          <div class="dow">水</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-title">米PPI（生産者物価指数）4月発表</div>
-          <div class="cal-meta">
-            <span class="cal-tag us">米国</span>
-            <span class="cal-tag">21:30 JST</span>
+          <div class="branch downside">
+            <div class="h">▼ ガイダンス慎重</div>
+            <div>AI 関連調整、SOX 急落、Nasdaq 反落</div>
           </div>
-          <div class="cal-note">CPIに先行する物価の風向き</div>
         </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">14</div>
-          <div class="dow">水</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-title">NVIDIA 決算（米市場後）</div>
-          <div class="cal-meta">
-            <span class="cal-tag earnings">決算</span>
-            <span class="cal-tag us">米国</span>
+        <div class="pre-post">
+          <div class="col">
+            <div class="k">イベント前</div>
+            <div>半導体ポジは現状維持。寄り付きで動かない</div>
           </div>
-          <div class="cal-note">AI需要のバロメーター。指針次第でナスダックの方向感</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">15</div>
-          <div class="dow">木</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-title">日本 GDP（1-3月期速報）</div>
-          <div class="cal-meta">
-            <span class="cal-tag jp">日本</span>
-            <span class="cal-tag">08:50 JST</span>
+          <div class="col">
+            <div class="k">イベント後</div>
+            <div>強ければ Nasdaq 維持。弱ければ半導体一部利確</div>
           </div>
-          <div class="cal-note">日銀の追加利上げ判断材料</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">15</div>
-          <div class="dow">木</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-title">米小売売上高 4月発表</div>
-          <div class="cal-meta">
-            <span class="cal-tag us">米国</span>
-            <span class="cal-tag">21:30 JST</span>
-          </div>
-          <div class="cal-note">消費者信頼感悪化が実数値に表れるか</div>
-        </div>
-      </div>
-
-      <div class="cal-item">
-        <div class="cal-date">
-          <div class="month">5月</div>
-          <div class="day">16</div>
-          <div class="dow">金</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-title">米中通商会談（ジュネーブ）</div>
-          <div class="cal-meta">
-            <span class="cal-tag geopolitics">地政学</span>
-          </div>
-          <div class="cal-note">通商の進展は日本株の追い風／後退は逆風</div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ===== 7. AI Stance ===== -->
-  <section id="stance">
-    <div class="section-head">
+  <!-- ===== 7. 資産別アクション ===== -->
+  <section id="assets">
+    <div class="sec-h">
       <span class="num">7</span>
-      <h2>AIの売り買い判断</h2>
+      <h2>資産別アクション</h2>
+      <span class="sub">対象 → 今日の行動</span>
     </div>
-    <div class="stance-hero">
-      <div class="label">短期 1日〜1週間</div>
-      <div class="stance">やや強気</div>
-      <span class="conf">確信度 中</span>
-    </div>
-    <div class="stance-grid">
-      <div class="stance-cell"><div class="name">日経平均</div><div class="verdict bull">やや強気</div></div>
-      <div class="stance-cell"><div class="name">S&amp;P500</div><div class="verdict bull">やや強気</div></div>
-      <div class="stance-cell"><div class="name">ナスダック</div><div class="verdict bull">やや強気</div></div>
-      <div class="stance-cell"><div class="name">Bitcoin</div><div class="verdict neutral">中立</div></div>
-      <div class="stance-cell"><div class="name">ドル円</div><div class="verdict neutral">中立</div></div>
-      <div class="stance-cell"><div class="name">金</div><div class="verdict bull">やや強気</div></div>
+    <div class="asset-cards">
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">🇺🇸 S&P500</div>
+          <div class="verdict bull">やや強気</div>
+        </div>
+        <div class="action-now">既存維持 — 追加は CPI 通過後</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>CPI 下振れ・金利低下・高値更新継続</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>CPI 上振れ・金利急騰・VIX 急上昇</div>
+          </div>
+        </div>
+        <div class="reason">最高値圏で強いが、重要イベント前で追い買いリスクが高い局面。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">💻 Nasdaq</div>
+          <div class="verdict bull">やや強気</div>
+        </div>
+        <div class="action-now">既存維持 — 急騰銘柄は一部利確検討</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>金利低下 + SOX 高値更新</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>金利急騰 / 半導体失速</div>
+          </div>
+        </div>
+        <div class="reason">AI・半導体主導で強いが、過熱感あり。掲示板も楽観で短期反落に注意。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">🇯🇵 日経平均</div>
+          <div class="verdict warn">中立</div>
+        </div>
+        <div class="action-now">様子見 — ドル円次第</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>ドル円 152 円台維持 + 米株続伸</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>急速な円高（150 円割れ）</div>
+          </div>
+        </div>
+        <div class="reason">米株連動ながら為替次第で振れやすい。日銀発言にも注意。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">₿ Bitcoin</div>
+          <div class="verdict warn">中立</div>
+        </div>
+        <div class="action-now">ポジション据え置き — 新規追加なし</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>$72,000 突破 + リスクオン継続</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>$65,000 割れ / VIX 急騰</div>
+          </div>
+        </div>
+        <div class="reason">レンジ推移。株式相場との連動が強まっており単独材料に乏しい。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">💴 ドル円</div>
+          <div class="verdict warn">中立</div>
+        </div>
+        <div class="action-now">ヘッジ目的のみ — 投機ポジションは取らない</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>米CPI 下振れ + 日銀タカ派（円買い方向）</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>CPI 上振れ + 米金利上昇（円売り方向）</div>
+          </div>
+        </div>
+        <div class="reason">CPI 結果でレンジを抜ける可能性。日本株のヘッジ視点で監視。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">🥇 金 (Gold)</div>
+          <div class="verdict bull">やや強気</div>
+        </div>
+        <div class="action-now">既存維持 — ヘッジとして温存</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>地政学リスク / 米金利低下</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>米金利急騰・実質金利上昇</div>
+          </div>
+        </div>
+        <div class="reason">史上高値圏。ヘッジ機能として有効だが追加は控える。</div>
+      </div>
+
+      <div class="asset-card">
+        <div class="head">
+          <div class="name">🛢️ 原油 (WTI)</div>
+          <div class="verdict warn">中立</div>
+        </div>
+        <div class="action-now">対象外 — 観測のみ</div>
+        <div class="meta">
+          <div class="cell up">
+            <div class="k">買い条件</div>
+            <div>地政学イベント / OPEC+ 減産</div>
+          </div>
+          <div class="cell down">
+            <div class="k">売り条件</div>
+            <div>需要減速懸念 / 在庫増加</div>
+          </div>
+        </div>
+        <div class="reason">エネルギー株への波及をみる目的で監視。直接保有はしない。</div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ===== 8. Bulletin Board ===== -->
-  <section id="bbs">
-    <div class="section-head">
+  <!-- ===== 8. ニュース ===== -->
+  <section id="news">
+    <div class="sec-h">
       <span class="num">8</span>
-      <h2>掲示板の民</h2>
-      <span class="sub">逆指標として参照</span>
+      <h2>ニュース</h2>
+      <span class="sub">行動に影響したもののみ</span>
     </div>
+    <div class="news-list">
 
-    <div class="board">
-      <h3>🟢 4.3倍ブル掲示板</h3>
-      <p class="summary">歓喜・FOMO・ベア勢への嘲笑。買い煽り99%。</p>
-      <div class="gauge-row">
-        <span>弱気</span>
-        <div class="gauge-bar"><div class="pin" style="left:88%"></div></div>
-        <span style="text-align:right">強気</span>
+      <div class="news">
+        <div class="nh">
+          <span class="imp high">高</span>
+          <div class="title">米CPI 4月発表を控え、市場は様子見に転換</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">影響資産</div><div>S&P500、Nasdaq、ドル円、金</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>イベント前のポジション縮小、出来高低下</div></div>
+          <div class="r"><div class="k">自分の行動</div><div>新規買い停止、キャッシュ比率を 25% 以上に</div></div>
+          <div class="r"><div class="k">変更条件</div><div>CPI 結果が ±0.2pt 想定内なら通常運用復帰</div></div>
+        </div>
       </div>
-      <div class="keywords">
-        <span class="kw">#日経65000</span>
-        <span class="kw">#握力</span>
-        <span class="kw">#窓埋め</span>
-        <span class="kw">#エアトレーダー</span>
-        <span class="kw">#往復ビンタ</span>
-      </div>
-      <div class="interp">⚠️ 売り煽り消滅・ベア嘲笑は<strong>過熱サイン</strong>。コントラリアン視点では軽量化検討の局面</div>
-    </div>
 
-    <div class="board">
-      <h3>🔴 3.8倍ベア掲示板</h3>
-      <p class="summary">諦め・恐怖・自虐。「償還」を語る投稿が増加。</p>
-      <div class="gauge-row">
-        <span>弱気</span>
-        <div class="gauge-bar"><div class="pin" style="left:8%"></div></div>
-        <span style="text-align:right">強気</span>
+      <div class="news">
+        <div class="nh">
+          <span class="imp high">高</span>
+          <div class="title">NVIDIA 決算前に半導体株が史上最高値圏</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">影響資産</div><div>Nasdaq、SOX、東京エレクトロン</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>過熱感増す。決算外し時の反落リスク上昇</div></div>
+          <div class="r"><div class="k">自分の行動</div><div>含み益 +20% 超は 1/3 部分利確を検討</div></div>
+          <div class="r"><div class="k">変更条件</div><div>決算 + ガイダンス両方クリアなら追加検討</div></div>
+        </div>
       </div>
-      <div class="keywords">
-        <span class="kw">#償還</span>
-        <span class="kw">#塩漬け</span>
-        <span class="kw">#ナンピン</span>
-        <span class="kw">#損切り</span>
-        <span class="kw">#爆益（皮肉）</span>
+
+      <div class="news">
+        <div class="nh">
+          <span class="imp mid">中</span>
+          <div class="title">日銀総裁、追加利上げに含み</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">影響資産</div><div>ドル円、日経平均、日本国債</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>円高方向、日本株はマイナス</div></div>
+          <div class="r"><div class="k">自分の行動</div><div>日本株の追加なし、為替ヘッジを確認</div></div>
+          <div class="r"><div class="k">変更条件</div><div>GDP 上振れで利上げ観測強まれば日本株比率引き下げ</div></div>
+        </div>
       </div>
-      <div class="interp">⚠️ ベア掲示板の「償還」連呼は底打ちサインの一つ。ただし地合いは株高方向のため反転時間軸は読みにくい</div>
+
+      <div class="news">
+        <div class="nh">
+          <span class="imp mid">中</span>
+          <div class="title">中東地政学リスクが再燃、原油・金が同時上昇</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">影響資産</div><div>原油、金、エネルギー株、VIX</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>リスクオフ初動の可能性</div></div>
+          <div class="r"><div class="k">自分の行動</div><div>金ポジションは維持。リスク資産の追加は控える</div></div>
+          <div class="r"><div class="k">変更条件</div><div>VIX 22 超 + 原油 $85 超で「リスクオフ」シナリオへ</div></div>
+        </div>
+      </div>
+
+      <div class="news">
+        <div class="nh">
+          <span class="imp low">低</span>
+          <div class="title">Bitcoin、$68,000 でレンジ推移</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">影響資産</div><div>BTC、暗号資産関連株</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>方向感なし、独自材料乏しい</div></div>
+          <div class="r"><div class="k">自分の行動</div><div>据え置き、新規追加なし</div></div>
+          <div class="r"><div class="k">変更条件</div><div>$72,000 ブレイクで方針再検討</div></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ===== 9. Conclusion ===== -->
+  <!-- ===== 今日の結論（3行）===== -->
   <section id="concl">
-    <div class="section-head">
-      <span class="num">9</span>
-      <h2>今日の結論</h2>
-    </div>
-    <div class="concl-hero">
-      <div class="label">📝 メインシナリオ</div>
-      <div class="text">月曜の日本株は米株最高値更新を映してギャップアップで寄り付く可能性が高いが、5/7の急騰の反動と中東リスクで上下どちらにも振れやすい。</div>
-    </div>
-    <div class="concl-grid">
-      <div class="concl-card bull">
-        <div class="title">▲ 強気になる条件</div>
-        <div class="body">月曜の半導体株続伸／ドル円157円台維持／ホルムズ海峡情勢の沈静化</div>
-      </div>
-      <div class="concl-card bear">
-        <div class="title">▼ 弱気になる条件</div>
-        <div class="body">ホルムズで追加交戦／WTI $100超／米長期金利急騰／円急伸（154割れ）</div>
-      </div>
-      <div class="concl-card">
-        <div class="title">⏸ 様子見すべき理由</div>
-        <div class="body">株指数が最高値圏／ブル掲示板の楽観極端／消費者信頼感過去最低――上昇余地と過熱の綱引き</div>
-      </div>
-      <div class="concl-card">
-        <div class="title">📅 次に見るべきイベント</div>
-        <div class="body">5/13 米CPI／5/14 NVIDIA決算／5/15 日本GDP</div>
-      </div>
+    <div class="concl-3">
+      <div class="label">今日の結論（3行）</div>
+      <ol>
+        <li>スタンスは「やや強気」だが、CPI 通過まで新規買いとレバ追加は停止。</li>
+        <li>含み益銘柄は損切り水準を引き上げ、+20% 超は 1/3 利確で過熱対応。</li>
+        <li>判断が変わるのは 5/14 米CPI と 5/16 NVIDIA 決算 — それまで動かない。</li>
+      </ol>
     </div>
   </section>
 
-  <!-- ===== Disclaimer ===== -->
-  <div class="disclaimer">
-    ⚠️ <strong>本レポートは投資助言ではなく情報整理</strong>です。最終判断と責任は読者自身に帰属します。数値は取得時点のWebソース依拠で、ソース間で乖離がある場合は両論併記しています。株式系は5/8（金）終値ベース、土日の動きは未反映。
-  </div>
+  <!-- ===== 9. 詳細データ・ソース（折りたたみ）===== -->
+  <section id="archive">
+    <div class="sec-h">
+      <span class="num">9</span>
+      <h2>詳細データ・ソース</h2>
+      <span class="sub">必要な人だけ</span>
+    </div>
 
-  <!-- ===== Sources ===== -->
-  <details class="sources">
-    <summary>📎 情報源を表示 <span style="color:var(--fg-subtle)">▼</span></summary>
-    <ul>
-      <li><a href="https://www.nikkei.com/markets/worldidx/chart/nk225/" target="_blank" rel="noopener">日経平均株価リアルタイム推移 - 日本経済新聞</a></li>
-      <li><a href="https://www.thestreet.com/latest-news/stock-market-today-may-8-2026-updates" target="_blank" rel="noopener">Stock Market Today (May 8, 2026) - TheStreet</a></li>
-      <li><a href="https://www.cnbc.com/amp/2026/05/08/oil-prices-today-wti-brent-us-iran-fire-war-hormuz-ceasefire.html" target="_blank" rel="noopener">Oil prices today - CNBC</a></li>
-      <li><a href="https://fortune.com/article/price-of-bitcoin-05-08-2026/" target="_blank" rel="noopener">Current price of Bitcoin - Fortune</a></li>
-      <li><a href="https://fortune.com/article/current-price-of-gold-05-08-2026/" target="_blank" rel="noopener">Current price of gold - Fortune</a></li>
-      <li><a href="https://finance.yahoo.co.jp/quote/9I31115A/forum" target="_blank" rel="noopener">楽天日本株4.3倍ブル 掲示板</a></li>
-      <li><a href="https://finance.yahoo.co.jp/quote/9I311249/forum" target="_blank" rel="noopener">楽天日本株3.8倍ベアIII 掲示板</a></li>
-    </ul>
-  </details>
+    <details class="archive">
+      <summary>📊 主要7資産の詳細価格 ▼</summary>
+      <ul>
+        <li>日経平均: 38,920（前日比 -0.4%）</li>
+        <li>S&P500: 5,221（+0.3% 高値圏）</li>
+        <li>Nasdaq: 16,540（+0.5% 高値更新）</li>
+        <li>Bitcoin: $68,120（+0.8%）</li>
+        <li>ドル円: 152.30（+0.1%）</li>
+        <li>金: $2,415/oz（+0.2%）</li>
+        <li>原油 WTI: $78.40（-0.6%）</li>
+      </ul>
+    </details>
+
+    <div style="height: 8px"></div>
+
+    <details class="archive">
+      <summary>📅 来週の経済指標一覧 ▼</summary>
+      <ul>
+        <li>5/13 火 21:30: 米PPI（4月）</li>
+        <li>5/14 木 21:30: 米CPI（4月）★</li>
+        <li>5/15 金 08:50: 日本 GDP（1Q 速報）</li>
+        <li>5/16 金 7:00: NVIDIA 決算 ★</li>
+        <li>5/16 金 23:00: 米小売売上高</li>
+      </ul>
+    </details>
+
+    <div style="height: 8px"></div>
+
+    <details class="sources">
+      <summary>📎 情報源を表示 ▼</summary>
+      <ul>
+        <li><a href="#" target="_blank" rel="noopener">CBOE — VIX Index</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Trading Economics — 米10年債利回り</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Yahoo Finance JP — 楽天日本株4.3倍ブル 掲示板</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Yahoo Finance JP — 楽天日本株3.8倍ベアIII 掲示板</a></li>
+        <li><a href="#" target="_blank" rel="noopener">みんかぶ — 経済指標カレンダー</a></li>
+      </ul>
+    </details>
+  </section>
 
 </main>
 
-<!-- ===== Bottom Nav ===== -->
+<!-- ===== Bottom nav ===== -->
 <nav class="bottom-nav">
-  <a href="#market"><span class="ico">📊</span>市場</a>
-  <a href="#sector"><span class="ico">🏭</span>業種</a>
-  <a href="#picks"><span class="ico">⭐</span>銘柄</a>
-  <a href="#calendar"><span class="ico">📅</span>予定</a>
-  <a href="#bbs"><span class="ico">💬</span>民</a>
-  <a href="#concl"><span class="ico">🎯</span>結論</a>
+  <a href="#verdict"><span class="ic">🎯</span><span>判断</span></a>
+  <a href="#chance"><span class="ic">🔥</span><span>脳汁</span></a>
+  <a href="#triggers"><span class="ic">🧭</span><span>見方</span></a>
+  <a href="#therm"><span class="ic">🌡️</span><span>温度</span></a>
+  <a href="#events"><span class="ic">📅</span><span>予定</span></a>
+  <a href="#assets"><span class="ic">💼</span><span>資産</span></a>
 </nav>
-
-<script>
-  // Tab switching
-  document.querySelectorAll('.tab').forEach(t => {
-    t.addEventListener('click', () => {
-      const target = t.dataset.tab;
-      document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
-      document.querySelectorAll('.sector-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === target));
-    });
-  });
-</script>
 
 </body>
 </html>
