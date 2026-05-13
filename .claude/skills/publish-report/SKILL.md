@@ -32,8 +32,9 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 | `## 5. マーケット温度計` | `.therm-list` の最上段に `.therm-sent`（掲示板の民の動向：4.3倍ブル ＋ 3.8倍ベアIII の2カード ＋ `.ts-summary` 2掲示板の総括）。続いて `.therm` × 4（米VIX／日経VI／米10年債利回り／日本10年債利回り） |
 | `## 6. 今週のイベント` | `.events` ＞ `.event-card` × N（日付バッジ＋イベント名＋重要度バッジ／`.branch-grid` 上振れ↑下振れ↓／`.pre-post` イベント前・後アクション） |
 | `## 7. 資産別アクション` | `.asset-cards` ＞ `.asset-card` × 7（資産名＋判断バッジ／`.action-now` 今日の行動帯／`.meta` 買い条件・売り条件 の2セル／`.reason`） |
-| `## 8. ニュース` | `.news-list` ＞ `.news` × N（重要度バッジ＋見出し／影響資産・相場への影響・自分の行動・変更条件） |
-| `## 9. 詳細データ・ソース` | `<details class="archive">` × N（価格詳細・経済指標一覧 等）＋ `<details class="sources">`（情報源リンク） |
+| `## 8. 10バガー候補銘柄` | `.watch` ＞ `.stock` × N（米国上場株の長期調査候補。分類バッジ／強気・弱気シナリオ／監視KPI／スコアを表示） |
+| `## 9. ニュース` | `.news-list` ＞ `.news` × N（重要度バッジ＋見出し／影響資産・相場への影響・自分の行動・変更条件） |
+| `## 10. 詳細データ・ソース` | `<details class="archive">` × N（価格詳細・経済指標一覧 等）＋ `<details class="sources">`（情報源リンク） |
 | `## 今日の結論（3行）` | `.concl-3`（グラデーション枠＋3項目の番号付きリスト） |
 
 > 投資助言ではない旨の `.disclaimer` ブロックは描画しない。markdown 側に残っていても HTML には出さない（本サイトは作者個人の利用が主目的のため）。
@@ -50,7 +51,7 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 💼 資産 → #assets
 ```
 
-各セクションには上記 ID（`verdict` / `caution` / `chance` / `triggers` / `therm` / `events` / `assets` / `news` / `archive`）を必ず付与する。`caution` と `news` はナビからは省略するが ID は付ける。
+各セクションには上記 ID（`verdict` / `caution` / `chance` / `triggers` / `therm` / `events` / `assets` / `tenbagger` / `news` / `archive`）を必ず付与する。`caution` / `tenbagger` / `news` はナビからは省略するが ID は付ける。
 
 ## Pre-flight
 
@@ -96,6 +97,8 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 - 資産カードの判断バッジ（`.verdict`）: `.bull` / `.bear` / `.warn`（中立）
 - 騰落の方向感は `.up` / `.down` / `.flat` クラス
 - 数値はカード内に「現在値（前日比）」の形式で短く表示。表は使わない
+- 10バガー候補銘柄は `section#tenbagger` とし、既存の `.watch` / `.stock` コンポーネントを使う。分類は `.stock .role`、銘柄名は `.stock .nm`、強気/弱気の成立条件は `.stock .signals .sig.bull` / `.sig.bear`、監視アクションや四半期KPIは `.stock .act` に入れる
+- 10バガー候補のスコアは横スクロール表にせず、短いテキストか `<details class="archive">` 内の箇条書きで表示する。8項目すべてを表示するが、モバイルで読めるよう 1 銘柄あたり 8〜14 行程度に圧縮する
 
 ### ヒーロー（`.verdict-hero`）の組み立て
 - `<h1>` には markdown 「ヘッドコピー」（一文）を入れる
@@ -104,8 +107,20 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 - `.do-dont`: 「✅ 今日やること」「⛔ 今日やらないこと」の 2 ボックス
 - `.next-trigger`: 「⏰ 次に判断が変わるイベント」（日時 + イベント名 + 1行説明）
 
+### 「10バガー候補銘柄」（`.watch` / `.stock`）
+- `## 8. 10バガー候補銘柄` がある場合のみ描画し、無い場合は DOM ごと省略する
+- セクションヘッダー: `<section id="tenbagger">`、`.sec-h .num` は `8`、見出しは「10バガー候補銘柄」、サブコピーは「米国株の長期調査候補」
+- 冒頭に短い注記を 1 行だけ置く: 「買い推奨ではなく、5〜10年の事業成長を深掘りする調査候補。」
+- 各候補は `.stock` カードに変換する:
+  - `.top`: `.nm` に `Ticker — Company name`、`.role` に `High-conviction compounder` / `Speculative high-upside` / `Turnaround growth` / `Watchlist only` / `Avoid`
+  - 本文上部に Sector / Industry、Market cap、Action classification、Confidence score を短く表示
+  - `.signals`: 左に「10倍シナリオ」、右に「弱気・除外シナリオ」
+  - `.act`: 「四半期で見るKPI」と「次の確認アクション」を 1〜2 行で表示
+  - Investment thesis、Key growth drivers、Competitive advantage、Financial quality、Valuation scenario、Major risks は長文にせず要点だけ残す
+- スコア（Market opportunity / Revenue growth quality / Margin expansion potential / Competitive advantage / Balance sheet strength / Management quality / Valuation attractiveness / 10-bagger plausibility）は `.stock` 内の短い箇条書き、または銘柄ごとの `<details class="archive">` に入れる
+
 ### 「今日の結論（3行）」（`.concl-3`）
-- ページ最後（`## 9. 詳細データ・ソース` の **直前**）に置く
+- ページ最後（`## 10. 詳細データ・ソース` の **直前**）に置く
 - 番号付きリストで 3 項目厳守
 
 ## Step 3: index.html 更新（最新レポートで上書き）
