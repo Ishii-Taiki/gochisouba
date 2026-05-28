@@ -186,6 +186,20 @@
   .sec-h h2 { margin: 0; font-size: 17px; font-weight: 700; }
   .sec-h .sub { color: var(--fg-muted); font-size: 12px; margin-left: auto; }
 
+  /* ===== Block label (テーマ内の区切り) ===== */
+  .block-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 700; color: var(--fg-muted);
+    margin: 14px 0 8px; letter-spacing: 0.04em;
+  }
+  .theme-intro {
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px; line-height: 1.55; color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+
   /* ===== Forbidden rules (売買禁止) ===== */
   .forbidden {
     background: var(--bg-elev);
@@ -427,6 +441,14 @@
   .event-card .imp.high { background: var(--down-bg); color: var(--down); }
   .event-card .imp.mid { background: var(--warn-bg); color: var(--warn); }
   .event-card .imp.low { background: var(--flat-bg); color: var(--fg-muted); }
+  .event-card .move-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    font-weight: 700; letter-spacing: 0.04em;
+    background: #ede9fe; color: #7c3aed;
+  }
+  @media (prefers-color-scheme: dark) {
+    .event-card .move-tag { background: #4c1d95; color: #ddd6fe; }
+  }
   .branch-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
     background: var(--border);
@@ -622,86 +644,10 @@
 
 <main class="container">
 
-  <!-- ===== 1. 今日の投資判断 ===== -->
-  <section id="verdict">
-    <div class="verdict-hero">
-      <div class="label">今日の投資判断</div>
-      <h1>イベント前は守り中心 — 既存ポジションは維持、追加は CPI 通過後に</h1>
-      <div class="pill-row">
-        <span class="pill solid">⚖️ やや強気</span>
-        <span class="pill">🎯 確信度: 中</span>
-        <span class="pill">📦 通常の 60〜70%</span>
-      </div>
-
-      <div class="verdict-grid">
-        <div class="vcell">
-          <div class="k">推奨行動</div>
-          <div class="v">既存維持・追加は小さく</div>
-        </div>
-        <div class="vcell">
-          <div class="k">新規買い</div>
-          <div class="v">CPI 通過まで原則停止</div>
-        </div>
-        <div class="vcell">
-          <div class="k">利確方針</div>
-          <div class="v">含み益 +15% 以上は 1/3 部分利確</div>
-        </div>
-        <div class="vcell">
-          <div class="k">損切り条件</div>
-          <div class="v">S&P500 -1.5% / VIX 22 超</div>
-        </div>
-      </div>
-
-      <div class="do-dont">
-        <div class="box">
-          <div class="h">✅ 今日やること</div>
-          <ul>
-            <li>含み益銘柄の損切り水準を引き上げ</li>
-            <li>キャッシュ比率を 25% 以上に確認</li>
-            <li>CPI 予想と前回値を再確認</li>
-          </ul>
-        </div>
-        <div class="box">
-          <div class="h">⛔ 今日やらないこと</div>
-          <ul>
-            <li>レバレッジ商品の追加買い</li>
-            <li>急騰後の寄り付き飛びつき</li>
-            <li>CPI 直前のナンピン</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="next-trigger">
-        <div class="k">⏰ 次に判断が変わるイベント</div>
-        <div>5/14（木）21:30 JST — 米CPI（4月）。結果次第でスタンスを再評価。</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 2. 今日は控えたいこと ===== -->
-  <section id="caution">
-    <div class="sec-h">
-      <span class="num">2</span>
-      <h2>今日は控えたいこと</h2>
-      <span class="sub">やらないほうが良いこと</span>
-    </div>
-    <div class="forbidden">
-      <h3>🧯 今日の自制リスト</h3>
-      <ul>
-        <li>米CPI 発表（5/14）の前日・当日に追加買いを入れない</li>
-        <li>急騰後の寄り付きで飛びつかない（特に半導体・AI 関連）</li>
-        <li>掲示板が極端に楽観のときにレバレッジ商品を増やさない</li>
-        <li>含み損銘柄に CPI 前ナンピンしない</li>
-        <li>原油・金・VIX が同時に上昇しているときにリスク資産を増やさない</li>
-        <li>自分の運用ルール外の短期売買はしない（特に急落後の逆張り）</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ===== 3. 脳汁チャンス ===== -->
+  <!-- ===== 1. 脳汁チャンス ===== -->
   <section id="chance">
     <div class="sec-h">
-      <span class="num">3</span>
+      <span class="num">1</span>
       <h2>脳汁チャンス</h2>
       <span class="sub">投機的に大きく振れうる対象</span>
     </div>
@@ -726,24 +672,6 @@
           </div>
         </div>
         <div class="ch-note">半導体センチメントの最大増幅器。CPI と NVDA 決算を跨ぐ持ち越しは博打。</div>
-      </div>
-
-      <div class="chance">
-        <div class="ch-head">
-          <div class="ch-name">TQQQ（Nasdaq100 3倍ブル ETF）</div>
-          <div class="ch-tag">レバETF</div>
-        </div>
-        <div class="ch-scen">
-          <div class="s up">
-            <div class="k">脳汁シナリオ</div>
-            <div>金利低下 + Nasdaq 高値更新で 1日 +5〜8%</div>
-          </div>
-          <div class="s down">
-            <div class="k">地獄シナリオ</div>
-            <div>金利急騰でグロース総崩れ、1日 -5〜10%</div>
-          </div>
-        </div>
-        <div class="ch-note">米金利と一蓮托生。FOMC 系イベントのある週はボラ拡大。</div>
       </div>
 
       <div class="chance">
@@ -779,25 +707,7 @@
             <div>イベント通過で日次減価。何もなければ毎日マイナス</div>
           </div>
         </div>
-        <div class="ch-note">CPI 上振れリスクのヘッジ枠としてだけ使う。長期保有は禁忌。</div>
-      </div>
-
-      <div class="chance">
-        <div class="ch-head">
-          <div class="ch-name">NVIDIA（NVDA）— 決算ギャンブル</div>
-          <div class="ch-tag">決算プレイ</div>
-        </div>
-        <div class="ch-scen">
-          <div class="s up">
-            <div class="k">脳汁シナリオ</div>
-            <div>5/16 ガイダンス上方 → ギャップアップ +8〜12%</div>
-          </div>
-          <div class="s down">
-            <div class="k">地獄シナリオ</div>
-            <div>慎重ガイダンスで -8〜-15% ギャップダウン</div>
-          </div>
-        </div>
-        <div class="ch-note">期待値は読めない。決算ストラドル相当の博打。本玉では絶対に張らない。</div>
+        <div class="ch-note">イベントのヘッジ枠としてだけ使う。長期保有は禁忌。</div>
       </div>
 
       <div class="chance">
@@ -808,11 +718,11 @@
         <div class="ch-scen">
           <div class="s up">
             <div class="k">脳汁シナリオ</div>
-            <div>$72,000 ブレイク + リスクオンで 1〜2日 +10%</div>
+            <div>レンジ上抜け + リスクオンで 1〜2日 +10%</div>
           </div>
           <div class="s down">
             <div class="k">地獄シナリオ</div>
-            <div>$65,000 割れでオーダーカスケード、-10〜15%</div>
+            <div>サポート割れでオーダーカスケード、-10〜15%</div>
           </div>
         </div>
         <div class="ch-note">レンジ抜けるとボラ拡大。週末に動きやすく、月曜寄りギャップに注意。</div>
@@ -821,146 +731,89 @@
     </div>
   </section>
 
-  <!-- ===== 4. こうなったら、こう判断する ===== -->
-  <section id="triggers">
+  <!-- ===== 2. 高ボラティリティ重要決算スケジュール ===== -->
+  <section id="earnings">
     <div class="sec-h">
-      <span class="num">4</span>
-      <h2>こうなったら、こう判断する</h2>
-      <span class="sub">条件 → 判断</span>
+      <span class="num">2</span>
+      <h2>高ボラ重要決算スケジュール</h2>
+      <span class="sub">決算 → 想定変動 → 行動</span>
     </div>
-    <div class="scenarios">
+    <div class="events">
 
-      <div class="scenario bull">
-        <div class="stitle">📈 こうなったら「買い」 <span class="badge">BUY</span></div>
-        <div class="srows">
-          <div class="r"><div class="k">条件</div><div>CPI 想定どおり〜下振れ（+3.0% 以下）+ 米10年金利 4.4% 以下 + VIX 18 以下</div></div>
-          <div class="r"><div class="k">起きやすい相場</div><div>株高継続、グロース・半導体主導、ドル安方向</div></div>
-          <div class="r"><div class="k">自分の判断</div><div>既存維持＋押し目（-2% 程度）で追加。Nasdaq・半導体を厚めに</div></div>
-          <div class="r"><div class="k">確認指標</div><div>S&P500、米10年金利、VIX、SOX</div></div>
+      <div class="event-card">
+        <div class="ehead">
+          <span class="date">5/16 金 7:00</span>
+          <span class="ename">NVIDIA（NVDA）</span>
+          <span class="move-tag">想定 ±8〜12%</span>
+          <span class="imp high">重要度 高</span>
+        </div>
+        <div class="branch-grid">
+          <div class="branch upside">
+            <div class="h">▲ 予想超え・ガイダンス上方</div>
+            <div>AI・半導体相場再加速、Nasdaq 高値更新</div>
+          </div>
+          <div class="branch downside">
+            <div class="h">▼ 予想未達・慎重ガイダンス</div>
+            <div>AI 関連調整、SOX 急落、Nasdaq 反落</div>
+          </div>
+        </div>
+        <div class="pre-post">
+          <div class="col">
+            <div class="k">決算前</div>
+            <div>半導体ポジは現状維持。寄り付きで動かない</div>
+          </div>
+          <div class="col">
+            <div class="k">決算後</div>
+            <div>強ければ Nasdaq 維持。弱ければ半導体一部利確</div>
+          </div>
         </div>
       </div>
 
-      <div class="scenario wait">
-        <div class="stitle">🟨 こうなったら「様子見」 <span class="badge">WAIT</span></div>
-        <div class="srows">
-          <div class="r"><div class="k">条件</div><div>CPI 結果待ち / 指標まちまち / 金利が方向感欠く / 出来高低下</div></div>
-          <div class="r"><div class="k">起きやすい相場</div><div>狭いレンジ、決め手不在、流動性低下</div></div>
-          <div class="r"><div class="k">自分の判断</div><div>新規・追加なし。既存維持のみ。キャッシュ 25% 以上温存</div></div>
-          <div class="r"><div class="k">確認指標</div><div>VIX、出来高、ドル円、米10年金利</div></div>
+      <div class="event-card">
+        <div class="ehead">
+          <span class="date">5/20 火 6:00</span>
+          <span class="ename">Palantir（PLTR）</span>
+          <span class="move-tag">想定 ±15%</span>
+          <span class="imp mid">重要度 中</span>
         </div>
-      </div>
-
-      <div class="scenario bear">
-        <div class="stitle">📉 こうなったら「売り」 <span class="badge">SELL</span></div>
-        <div class="srows">
-          <div class="r"><div class="k">条件</div><div>CPI 上振れ + 米10年金利 4.7% 超 + VIX 22 超 / または地政学ショック</div></div>
-          <div class="r"><div class="k">起きやすい相場</div><div>株安、グロース売り、ドル高または円高急変、リスクオフ</div></div>
-          <div class="r"><div class="k">自分の判断</div><div>レバ縮小、含み益の 1/3 利確、新規買い停止、キャッシュ 40% へ</div></div>
-          <div class="r"><div class="k">確認指標</div><div>米10年金利、VIX、Nasdaq、ドル円、金</div></div>
+        <div class="branch-grid">
+          <div class="branch upside">
+            <div class="h">▲ 商用売上の再加速</div>
+            <div>AI ソフト関連の物色拡大、グロース買い</div>
+          </div>
+          <div class="branch downside">
+            <div class="h">▼ ガイダンス保守的</div>
+            <div>高 PSR 銘柄の調整、グロース全般に波及</div>
+          </div>
+        </div>
+        <div class="pre-post">
+          <div class="col">
+            <div class="k">決算前</div>
+            <div>新規は入れない。値幅が大きいので様子見</div>
+          </div>
+          <div class="col">
+            <div class="k">決算後</div>
+            <div>ギャップの方向を確認してから判断</div>
+          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ===== 5. マーケット温度計 ===== -->
-  <section id="therm">
-    <div class="sec-h">
-      <span class="num">5</span>
-      <h2>マーケット温度計</h2>
-      <span class="sub">数値 → 行動への意味</span>
-    </div>
-    <div class="therm-list">
-
-      <!-- 掲示板の民の動向（最上段に配置）-->
-      <div class="therm-sent">
-        <div class="ts-head">
-          <div class="ts-title">📣 掲示板の民の動向</div>
-          <span class="level over">逆指標：過熱</span>
-        </div>
-        <div class="ts-boards">
-
-          <div class="ts-board bull">
-            <div class="bh">
-              🐂 楽天日本株4.3倍ブル（9I31115A）
-              <span class="ts-mini over">楽観過熱</span>
-            </div>
-            <div class="mood">
-              買い煽り多発、勝ち報告のスクショ連投。下げ予想は袋叩き。FOMO 強。投稿数は前週比 +35%。
-            </div>
-            <div class="words">注目ワード：「青天井」「Nasdaq最強」「全ツッパ」「乗るしかない」</div>
-          </div>
-
-          <div class="ts-board bear">
-            <div class="bh">
-              🐻 楽天日本株3.8倍ベアIII（9I311249）
-              <span class="ts-mini calm">沈黙・諦め</span>
-            </div>
-            <div class="mood">
-              投稿数激減、損切り報告と「もう無理」「休む」がメイン。逆張り勢の弾切れ感が強い。
-            </div>
-            <div class="words">注目ワード：「損切り」「諦め」「休む」「養分」</div>
-          </div>
-
-        </div>
-        <div class="ts-summary">
-          <div class="k">2掲示板の総括</div>
-          <div>強気側が極端に過熱・弱気側が沈黙という、教科書的な楽観の終盤局面に近い構図。逆指標としては明確に「過熱」シグナルで、新規買い抑制・含み益の一部利確が妥当。ベア側の投稿が増え始めたら反転の前兆として要注視。</div>
-        </div>
-      </div>
-
-      <div class="therm">
-        <div class="left">
-          <div class="k">米VIX（米恐怖指数）</div>
-          <div class="v">17.13（前日 +0.4）</div>
-          <div class="meaning">市場の恐怖は限定的。ただし CPI 直前の急変には注意。22 超でリスクオフ警戒。</div>
-        </div>
-        <div class="right"><span class="level calm">平静</span></div>
-      </div>
-
-      <div class="therm">
-        <div class="left">
-          <div class="k">日経VI（日本株の不安度）</div>
-          <div class="v">18.5（前日 -0.2）</div>
-          <div class="meaning">米VIX とほぼ連動で平静。日銀イベント前後でジワっと上昇しやすい。</div>
-        </div>
-        <div class="right"><span class="level calm">平静</span></div>
-      </div>
-
-      <div class="therm">
-        <div class="left">
-          <div class="k">米10年債利回り</div>
-          <div class="v">4.42%（前日 +0.02pt）</div>
-          <div class="meaning">高止まり継続。4.7% 超で株式・グロースの重しが急増。4.2% 割れで追い風。</div>
-        </div>
-        <div class="right"><span class="level warn">警戒</span></div>
-      </div>
-
-      <div class="therm">
-        <div class="left">
-          <div class="k">日本10年債利回り</div>
-          <div class="v">0.95%（前日 ±0）</div>
-          <div class="meaning">日銀正常化観測で高止まり。1.0% 超で円高・銀行株上昇のスイッチ。</div>
-        </div>
-        <div class="right"><span class="level warn">警戒</span></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== 6. 今週のイベント ===== -->
+  <!-- ===== 3. 今週の重要イベント（決算を除く）===== -->
   <section id="events">
     <div class="sec-h">
-      <span class="num">6</span>
-      <h2>今週のイベント</h2>
-      <span class="sub">結果 → 行動</span>
+      <span class="num">3</span>
+      <h2>今週の重要イベント</h2>
+      <span class="sub">決算を除く / 結果 → 行動</span>
     </div>
     <div class="events">
 
       <div class="event-card">
         <div class="ehead">
           <span class="date">5/14 木 21:30</span>
-          <span class="ename">米CPI（4月）</span>
+          <span class="ename">米CPI（消費者物価指数・4月）</span>
           <span class="imp high">重要度 高</span>
         </div>
         <div class="branch-grid">
@@ -976,11 +829,11 @@
         <div class="pre-post">
           <div class="col">
             <div class="k">イベント前</div>
-            <div>追加買いを停止。レバを縮小。キャッシュ 25% 確保</div>
+            <div>追加買いを停止。レバを縮小。現金を 25% 確保</div>
           </div>
           <div class="col">
             <div class="k">イベント後</div>
-            <div>結果に応じて株式比率を ±10% 調整。下振れなら追加投入</div>
+            <div>結果に応じて株式比率を ±10% 調整</div>
           </div>
         </div>
       </div>
@@ -1013,329 +866,145 @@
         </div>
       </div>
 
-      <div class="event-card">
-        <div class="ehead">
-          <span class="date">5/16 金 7:00</span>
-          <span class="ename">NVIDIA 決算</span>
-          <span class="imp high">重要度 高</span>
+    </div>
+  </section>
+
+  <!-- ===== 4. 10バガー候補銘柄 ===== -->
+  <section id="tenbagger">
+    <div class="sec-h">
+      <span class="num">4</span>
+      <h2>10バガー候補銘柄</h2>
+      <span class="sub">米国株の長期調査候補</span>
+    </div>
+    <div class="theme-intro">
+      買い推奨ではなく、5〜10年の事業成長を深掘りする調査候補。
+    </div>
+    <div class="watch">
+
+      <div class="stock">
+        <div class="top">
+          <div class="nm">EXAMPLE — Example Corp.</div>
+          <div class="role">High-conviction compounder</div>
         </div>
-        <div class="branch-grid">
-          <div class="branch upside">
-            <div class="h">▲ ガイダンス上方修正</div>
-            <div>AI・半導体相場再加速、Nasdaq 高値更新</div>
+        <div class="ch-note" style="margin:0 0 6px">Sector: Software ／ 時価総額: $X.XB ／ 区分: Buy candidate ／ 確信度: 中</div>
+        <div class="signals">
+          <div class="sig bull">
+            <div class="k">10倍シナリオ</div>
+            <div>TAM $XXB に対し売上まだ小さく、年率 +40% 成長が継続すれば妥当</div>
           </div>
-          <div class="branch downside">
-            <div class="h">▼ ガイダンス慎重</div>
-            <div>AI 関連調整、SOX 急落、Nasdaq 反落</div>
-          </div>
-        </div>
-        <div class="pre-post">
-          <div class="col">
-            <div class="k">イベント前</div>
-            <div>半導体ポジは現状維持。寄り付きで動かない</div>
-          </div>
-          <div class="col">
-            <div class="k">イベント後</div>
-            <div>強ければ Nasdaq 維持。弱ければ半導体一部利確</div>
+          <div class="sig bear">
+            <div class="k">弱気・除外シナリオ</div>
+            <div>成長鈍化 + 希薄化進行でマージン拡大が実現しない</div>
           </div>
         </div>
+        <div class="act">四半期 KPI: 売上成長率 / 粗利率 / NRR / FCF ｜ 次の確認: 次回決算のガイダンス</div>
       </div>
 
     </div>
   </section>
 
-  <!-- ===== 7. 資産別アクション ===== -->
-  <section id="assets">
+  <!-- ===== 5. 量子コンピューティング関連 ===== -->
+  <section id="quantum">
     <div class="sec-h">
-      <span class="num">7</span>
-      <h2>資産別アクション</h2>
-      <span class="sub">対象 → 今日の行動</span>
+      <span class="num">5</span>
+      <h2>量子コンピューティング</h2>
+      <span class="sub">ニュース & 関連銘柄</span>
     </div>
-    <div class="asset-cards">
 
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">🇺🇸 S&P500</div>
-          <div class="verdict bull">やや強気</div>
-        </div>
-        <div class="action-now">既存維持 — 追加は CPI 通過後</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>CPI 下振れ・金利低下・高値更新継続</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>CPI 上振れ・金利急騰・VIX 急上昇</div>
-          </div>
-        </div>
-        <div class="reason">最高値圏で強いが、重要イベント前で追い買いリスクが高い局面。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">💻 Nasdaq</div>
-          <div class="verdict bull">やや強気</div>
-        </div>
-        <div class="action-now">既存維持 — 急騰銘柄は一部利確検討</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>金利低下 + SOX 高値更新</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>金利急騰 / 半導体失速</div>
-          </div>
-        </div>
-        <div class="reason">AI・半導体主導で強いが、過熱感あり。掲示板も楽観で短期反落に注意。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">🇯🇵 日経平均</div>
-          <div class="verdict warn">中立</div>
-        </div>
-        <div class="action-now">様子見 — ドル円次第</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>ドル円 152 円台維持 + 米株続伸</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>急速な円高（150 円割れ）</div>
-          </div>
-        </div>
-        <div class="reason">米株連動ながら為替次第で振れやすい。日銀発言にも注意。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">₿ Bitcoin</div>
-          <div class="verdict warn">中立</div>
-        </div>
-        <div class="action-now">ポジション据え置き — 新規追加なし</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>$72,000 突破 + リスクオン継続</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>$65,000 割れ / VIX 急騰</div>
-          </div>
-        </div>
-        <div class="reason">レンジ推移。株式相場との連動が強まっており単独材料に乏しい。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">💴 ドル円</div>
-          <div class="verdict warn">中立</div>
-        </div>
-        <div class="action-now">ヘッジ目的のみ — 投機ポジションは取らない</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>米CPI 下振れ + 日銀タカ派（円買い方向）</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>CPI 上振れ + 米金利上昇（円売り方向）</div>
-          </div>
-        </div>
-        <div class="reason">CPI 結果でレンジを抜ける可能性。日本株のヘッジ視点で監視。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">🥇 金 (Gold)</div>
-          <div class="verdict bull">やや強気</div>
-        </div>
-        <div class="action-now">既存維持 — ヘッジとして温存</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>地政学リスク / 米金利低下</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>米金利急騰・実質金利上昇</div>
-          </div>
-        </div>
-        <div class="reason">史上高値圏。ヘッジ機能として有効だが追加は控える。</div>
-      </div>
-
-      <div class="asset-card">
-        <div class="head">
-          <div class="name">🛢️ 原油 (WTI)</div>
-          <div class="verdict warn">中立</div>
-        </div>
-        <div class="action-now">対象外 — 観測のみ</div>
-        <div class="meta">
-          <div class="cell up">
-            <div class="k">買い条件</div>
-            <div>地政学イベント / OPEC+ 減産</div>
-          </div>
-          <div class="cell down">
-            <div class="k">売り条件</div>
-            <div>需要減速懸念 / 在庫増加</div>
-          </div>
-        </div>
-        <div class="reason">エネルギー株への波及をみる目的で監視。直接保有はしない。</div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== 8. ニュース ===== -->
-  <section id="news">
-    <div class="sec-h">
-      <span class="num">8</span>
-      <h2>ニュース</h2>
-      <span class="sub">行動に影響したもののみ</span>
-    </div>
+    <div class="block-label">📰 関連ニュース</div>
     <div class="news-list">
-
-      <div class="news">
-        <div class="nh">
-          <span class="imp high">高</span>
-          <div class="title">米CPI 4月発表を控え、市場は様子見に転換</div>
-        </div>
-        <div class="nrows">
-          <div class="r"><div class="k">影響資産</div><div>S&P500、Nasdaq、ドル円、金</div></div>
-          <div class="r"><div class="k">相場への影響</div><div>イベント前のポジション縮小、出来高低下</div></div>
-          <div class="r"><div class="k">自分の行動</div><div>新規買い停止、キャッシュ比率を 25% 以上に</div></div>
-          <div class="r"><div class="k">変更条件</div><div>CPI 結果が ±0.2pt 想定内なら通常運用復帰</div></div>
-        </div>
-      </div>
-
-      <div class="news">
-        <div class="nh">
-          <span class="imp high">高</span>
-          <div class="title">NVIDIA 決算前に半導体株が史上最高値圏</div>
-        </div>
-        <div class="nrows">
-          <div class="r"><div class="k">影響資産</div><div>Nasdaq、SOX、東京エレクトロン</div></div>
-          <div class="r"><div class="k">相場への影響</div><div>過熱感増す。決算外し時の反落リスク上昇</div></div>
-          <div class="r"><div class="k">自分の行動</div><div>含み益 +20% 超は 1/3 部分利確を検討</div></div>
-          <div class="r"><div class="k">変更条件</div><div>決算 + ガイダンス両方クリアなら追加検討</div></div>
-        </div>
-      </div>
-
       <div class="news">
         <div class="nh">
           <span class="imp mid">中</span>
-          <div class="title">日銀総裁、追加利上げに含み</div>
+          <div class="title">大手クラウドが量子プロセッサの新世代を発表</div>
         </div>
         <div class="nrows">
-          <div class="r"><div class="k">影響資産</div><div>ドル円、日経平均、日本国債</div></div>
-          <div class="r"><div class="k">相場への影響</div><div>円高方向、日本株はマイナス</div></div>
-          <div class="r"><div class="k">自分の行動</div><div>日本株の追加なし、為替ヘッジを確認</div></div>
-          <div class="r"><div class="k">変更条件</div><div>GDP 上振れで利上げ観測強まれば日本株比率引き下げ</div></div>
+          <div class="r"><div class="k">関連銘柄</div><div>IONQ、RGTI、IBM</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>量子関連株が短期的に物色されやすい</div></div>
+          <div class="r"><div class="k">注目点</div><div>誤り訂正の進捗・商用化のタイムライン</div></div>
         </div>
       </div>
+    </div>
 
-      <div class="news">
-        <div class="nh">
-          <span class="imp mid">中</span>
-          <div class="title">中東地政学リスクが再燃、原油・金が同時上昇</div>
+    <div class="block-label">📈 関連銘柄</div>
+    <div class="watch">
+      <div class="stock">
+        <div class="top">
+          <div class="nm">IONQ — IonQ, Inc.</div>
+          <div class="role">Speculative high-upside</div>
         </div>
-        <div class="nrows">
-          <div class="r"><div class="k">影響資産</div><div>原油、金、エネルギー株、VIX</div></div>
-          <div class="r"><div class="k">相場への影響</div><div>リスクオフ初動の可能性</div></div>
-          <div class="r"><div class="k">自分の行動</div><div>金ポジションは維持。リスク資産の追加は控える</div></div>
-          <div class="r"><div class="k">変更条件</div><div>VIX 22 超 + 原油 $85 超で「リスクオフ」シナリオへ</div></div>
+        <div class="ch-note" style="margin:0 0 6px">分野: 量子ハードウェア ／ 時価総額: $X.XB ／ 区分: Watchlist</div>
+        <div class="signals">
+          <div class="sig bull">
+            <div class="k">強気材料</div>
+            <div>受注拡大・政府/研究機関との契約進展</div>
+          </div>
+          <div class="sig bear">
+            <div class="k">弱気材料</div>
+            <div>商用化遠く赤字継続・増資による希薄化</div>
+          </div>
         </div>
+        <div class="act">注目: 受注残 / 現金残高 / 技術ロードマップの達成度</div>
       </div>
-
-      <div class="news">
-        <div class="nh">
-          <span class="imp low">低</span>
-          <div class="title">Bitcoin、$68,000 でレンジ推移</div>
-        </div>
-        <div class="nrows">
-          <div class="r"><div class="k">影響資産</div><div>BTC、暗号資産関連株</div></div>
-          <div class="r"><div class="k">相場への影響</div><div>方向感なし、独自材料乏しい</div></div>
-          <div class="r"><div class="k">自分の行動</div><div>据え置き、新規追加なし</div></div>
-          <div class="r"><div class="k">変更条件</div><div>$72,000 ブレイクで方針再検討</div></div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ===== 今日の結論（3行）===== -->
-  <section id="concl">
-    <div class="concl-3">
-      <div class="label">今日の結論（3行）</div>
-      <ol>
-        <li>スタンスは「やや強気」だが、CPI 通過まで新規買いとレバ追加は停止。</li>
-        <li>含み益銘柄は損切り水準を引き上げ、+20% 超は 1/3 利確で過熱対応。</li>
-        <li>判断が変わるのは 5/14 米CPI と 5/16 NVIDIA 決算 — それまで動かない。</li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ===== 9. 詳細データ・ソース（折りたたみ）===== -->
-  <section id="archive">
+  <!-- ===== 6. 宇宙関連 ===== -->
+  <section id="space">
     <div class="sec-h">
-      <span class="num">9</span>
-      <h2>詳細データ・ソース</h2>
-      <span class="sub">必要な人だけ</span>
+      <span class="num">6</span>
+      <h2>宇宙</h2>
+      <span class="sub">ニュース & 関連銘柄</span>
     </div>
 
-    <details class="archive">
-      <summary>📊 主要7資産の詳細価格 ▼</summary>
-      <ul>
-        <li>日経平均: 38,920（前日比 -0.4%）</li>
-        <li>S&P500: 5,221（+0.3% 高値圏）</li>
-        <li>Nasdaq: 16,540（+0.5% 高値更新）</li>
-        <li>Bitcoin: $68,120（+0.8%）</li>
-        <li>ドル円: 152.30（+0.1%）</li>
-        <li>金: $2,415/oz（+0.2%）</li>
-        <li>原油 WTI: $78.40（-0.6%）</li>
-      </ul>
-    </details>
+    <div class="block-label">📰 関連ニュース</div>
+    <div class="news-list">
+      <div class="news">
+        <div class="nh">
+          <span class="imp mid">中</span>
+          <div class="title">大型ロケットの打ち上げ成功で打ち上げコスト低下観測</div>
+        </div>
+        <div class="nrows">
+          <div class="r"><div class="k">関連銘柄</div><div>RKLB、LUNR、ASTS</div></div>
+          <div class="r"><div class="k">相場への影響</div><div>宇宙関連株のセンチメント改善</div></div>
+          <div class="r"><div class="k">注目点</div><div>打ち上げ頻度・受注残・政府予算の動向</div></div>
+        </div>
+      </div>
+    </div>
 
-    <div style="height: 8px"></div>
-
-    <details class="archive">
-      <summary>📅 来週の経済指標一覧 ▼</summary>
-      <ul>
-        <li>5/13 火 21:30: 米PPI（4月）</li>
-        <li>5/14 木 21:30: 米CPI（4月）★</li>
-        <li>5/15 金 08:50: 日本 GDP（1Q 速報）</li>
-        <li>5/16 金 7:00: NVIDIA 決算 ★</li>
-        <li>5/16 金 23:00: 米小売売上高</li>
-      </ul>
-    </details>
-
-    <div style="height: 8px"></div>
-
-    <details class="sources">
-      <summary>📎 情報源を表示 ▼</summary>
-      <ul>
-        <li><a href="#" target="_blank" rel="noopener">CBOE — VIX Index</a></li>
-        <li><a href="#" target="_blank" rel="noopener">Trading Economics — 米10年債利回り</a></li>
-        <li><a href="#" target="_blank" rel="noopener">Yahoo Finance JP — 楽天日本株4.3倍ブル 掲示板</a></li>
-        <li><a href="#" target="_blank" rel="noopener">Yahoo Finance JP — 楽天日本株3.8倍ベアIII 掲示板</a></li>
-        <li><a href="#" target="_blank" rel="noopener">みんかぶ — 経済指標カレンダー</a></li>
-      </ul>
-    </details>
+    <div class="block-label">📈 関連銘柄</div>
+    <div class="watch">
+      <div class="stock">
+        <div class="top">
+          <div class="nm">RKLB — Rocket Lab</div>
+          <div class="role">Turnaround growth</div>
+        </div>
+        <div class="ch-note" style="margin:0 0 6px">分野: 打ち上げ・宇宙システム ／ 時価総額: $X.XB ／ 区分: Watchlist</div>
+        <div class="signals">
+          <div class="sig bull">
+            <div class="k">強気材料</div>
+            <div>中型機の開発進展・打ち上げ頻度の増加</div>
+          </div>
+          <div class="sig bear">
+            <div class="k">弱気材料</div>
+            <div>開発遅延・打ち上げ失敗・資金繰り</div>
+          </div>
+        </div>
+        <div class="act">注目: 打ち上げ回数 / 受注残 / 宇宙システム部門の売上</div>
+      </div>
+    </div>
   </section>
 
 </main>
 
 <!-- ===== Bottom nav ===== -->
 <nav class="bottom-nav">
-  <a href="#verdict"><span class="ic">🎯</span><span>判断</span></a>
   <a href="#chance"><span class="ic">🔥</span><span>脳汁</span></a>
-  <a href="#triggers"><span class="ic">🧭</span><span>見方</span></a>
-  <a href="#therm"><span class="ic">🌡️</span><span>温度</span></a>
+  <a href="#earnings"><span class="ic">📊</span><span>決算</span></a>
   <a href="#events"><span class="ic">📅</span><span>予定</span></a>
-  <a href="#assets"><span class="ic">💼</span><span>資産</span></a>
+  <a href="#tenbagger"><span class="ic">🚀</span><span>10倍</span></a>
+  <a href="#quantum"><span class="ic">⚛️</span><span>量子</span></a>
+  <a href="#space"><span class="ic">🛰️</span><span>宇宙</span></a>
 </nav>
 
 </body>

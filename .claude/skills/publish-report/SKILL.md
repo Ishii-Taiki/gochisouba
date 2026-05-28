@@ -22,36 +22,34 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 
 ### コンポーネントと markdown セクションの対応
 
-| markdown セクション | HTML コンポーネント |
-|---|---|
-| `# 📊 ご馳走場 — YYYY-MM-DD` | `<header class="top-bar">`（ブランド「ご馳走場」＋日付） |
-| `## 1. 今日の投資判断` | `.verdict-hero`（グラデーション枠）<br>＋ `.pill-row`（スタンス／確信度／ポジション量）<br>＋ `.verdict-grid`（推奨行動／新規買い／利確方針／損切り条件）<br>＋ `.do-dont`（やること／やらないこと）<br>＋ `.next-trigger`（次に判断が変わるイベント） |
-| `## 2. 今日は控えたいこと` | `.forbidden`（赤帯カード、🚫 付きリスト） |
-| `## 3. 脳汁チャンス` | `.chance-banner`（橙赤グラデの注意帯）＋ `.chance-list` × N（`.chance` 各カード：脳汁シナリオ/地獄シナリオ の2セル＋メモ） |
-| `## 4. こうなったら、こう判断する` | `.scenarios` ＞ `.scenario.bull` / `.wait` / `.bear` の **3カードのみ**（条件／起きやすい相場／自分の判断／確認指標） |
-| `## 5. マーケット温度計` | `.therm-list` の最上段に `.therm-sent`（掲示板の民の動向：4.3倍ブル ＋ 3.8倍ベアIII の2カード ＋ `.ts-summary` 2掲示板の総括）。続いて `.therm` × 4（米VIX／日経VI／米10年債利回り／日本10年債利回り） |
-| `## 6. 今週のイベント` | `.events` ＞ `.event-card` × N（日付バッジ＋イベント名＋重要度バッジ／`.branch-grid` 上振れ↑下振れ↓／`.pre-post` イベント前・後アクション） |
-| `## 7. 資産別アクション` | `.asset-cards` ＞ `.asset-card` × 7（資産名＋判断バッジ／`.action-now` 今日の行動帯／`.meta` 買い条件・売り条件 の2セル／`.reason`） |
-| `## 8. 10バガー候補銘柄` | `.watch` ＞ `.stock` × N（米国上場株の長期調査候補。分類バッジ／強気・弱気シナリオ／監視KPI／スコアを表示） |
-| `## 9. ニュース` | `.news-list` ＞ `.news` × N（重要度バッジ＋見出し／影響資産・相場への影響・自分の行動・変更条件） |
-| `## 10. 詳細データ・ソース` | `<details class="archive">` × N（価格詳細・経済指標一覧 等）＋ `<details class="sources">`（情報源リンク） |
-| `## 今日の結論（3行）` | `.concl-3`（グラデーション枠＋3項目の番号付きリスト） |
+レポートは **6セクション固定**。各セクションは独立して省略可能だが、原則すべて存在する想定。
+
+| markdown セクション | section id | HTML コンポーネント |
+|---|---|---|
+| `# 📊 ご馳走場 — YYYY-MM-DD` | — | `<header class="top-bar">`（ブランド「ご馳走場」＋日付） |
+| `## 1. 脳汁チャンス` | `chance` | `.chance-banner`（橙赤グラデの注意帯）＋ `.chance-list` × N（`.chance` 各カード：脳汁シナリオ/地獄シナリオ の2セル＋メモ） |
+| `## 2. 高ボラティリティ重要決算スケジュール` | `earnings` | `.events` ＞ `.event-card` × N（日付バッジ＋Ticker/企業名＋`.move-tag` 想定変動率＋`.imp` 重要度バッジ／`.branch-grid` 予想超え▲予想未達▼／`.pre-post` 決算前・決算後アクション） |
+| `## 3. 今週の重要イベント（決算を除く）` | `events` | `.events` ＞ `.event-card` × N（日付バッジ＋イベント名＋重要度バッジ／`.branch-grid` 上振れ▲下振れ▼／`.pre-post` イベント前・後アクション）。`.move-tag` は付けない |
+| `## 4. 10バガー候補銘柄` | `tenbagger` | `.theme-intro`（注記1行）＋ `.watch` ＞ `.stock` × N（米国上場株の長期調査候補。区分バッジ／強気・弱気シナリオ／監視KPI／スコア） |
+| `## 5. 量子コンピューティング関連ニュースおよび銘柄` | `quantum` | `.block-label`「📰 関連ニュース」＋ `.news-list` ＞ `.news` × N、続いて `.block-label`「📈 関連銘柄」＋ `.watch` ＞ `.stock` × N |
+| `## 6. 宇宙関連ニュースおよび銘柄` | `space` | `.block-label`「📰 関連ニュース」＋ `.news-list` ＞ `.news` × N、続いて `.block-label`「📈 関連銘柄」＋ `.watch` ＞ `.stock` × N |
 
 > 投資助言ではない旨の `.disclaimer` ブロックは描画しない。markdown 側に残っていても HTML には出さない（本サイトは作者個人の利用が主目的のため）。
+> 旧構成（`verdict` / `caution` / `triggers` / `therm` / `assets` / `news` / `concl` / `archive`）のセクションは **生成しない**。
 
 ### 下部固定ナビ
-固定で **6リンク** を置く（順序固定）：
+固定で **6リンク** を置く（順序固定。6セクションと1対1対応）：
 
 ```
-🎯 判断 → #verdict
 🔥 脳汁 → #chance
-🧭 見方 → #triggers
-🌡️ 温度 → #therm
+📊 決算 → #earnings
 📅 予定 → #events
-💼 資産 → #assets
+🚀 10倍 → #tenbagger
+⚛️ 量子 → #quantum
+🛰️ 宇宙 → #space
 ```
 
-各セクションには上記 ID（`verdict` / `caution` / `chance` / `triggers` / `therm` / `events` / `assets` / `tenbagger` / `news` / `archive`）を必ず付与する。`caution` / `tenbagger` / `news` はナビからは省略するが ID は付ける。
+各セクションには上記 ID（`chance` / `earnings` / `events` / `tenbagger` / `quantum` / `space`）を必ず付与する。
 
 ## Pre-flight
 
@@ -89,39 +87,42 @@ description: reports/ 配下の最新マーケットレポート markdown を「
 
 ### セクション生成ルール
 - markdown の各セクションを上記 Design System 表に従って HTML コンポーネントへ変換
+- セクションは **1〜6 の番号・並び順固定**。`.sec-h .num` は 1〜6 を振る
 - markdown にデータが欠けているセクションは **DOM ごと省略**（空の枠を残さない）
-- 判定バッジ（`.level`）の色分け:
-  - `.level.calm`（平静、緑）／`.level.warn`（警戒、橙）／`.level.high`（高水準、赤）／`.level.over`（過熱、紫）／`.level.off`（リスクオフ、濃赤）
-- シナリオの色分け（`.scenario`）: `.bull`（緑）／`.wait`（橙）／`.bear`（赤）
-- 重要度バッジ（`.imp` / `.event-card .imp`）: `.high`（赤）／`.mid`（橙）／`.low`（灰）
-- 資産カードの判断バッジ（`.verdict`）: `.bull` / `.bear` / `.warn`（中立）
-- 騰落の方向感は `.up` / `.down` / `.flat` クラス
-- 数値はカード内に「現在値（前日比）」の形式で短く表示。表は使わない
-- 10バガー候補銘柄は `section#tenbagger` とし、既存の `.watch` / `.stock` コンポーネントを使う。分類は `.stock .role`、銘柄名は `.stock .nm`、強気/弱気の成立条件は `.stock .signals .sig.bull` / `.sig.bear`、監視アクションや四半期KPIは `.stock .act` に入れる
-- 10バガー候補のスコアは横スクロール表にせず、短いテキストか `<details class="archive">` 内の箇条書きで表示する。8項目すべてを表示するが、モバイルで読めるよう 1 銘柄あたり 8〜14 行程度に圧縮する
+- 重要度バッジ（`.imp` / `.event-card .imp` / `.news .imp`）: `.high`（赤）／`.mid`（橙）／`.low`（灰）
+- 想定変動率（決算のみ）: `.event-card .move-tag`（紫ピル、例「想定 ±8〜12%」）。「3. 今週の重要イベント」では使わない
+- 騰落・上下の方向感は `.up` / `.down` / `.flat` クラス（`.chance .ch-scen .s.up/.down`、`.branch.upside/.downside`）
+- 数値はカード内に短く表示。横スクロール表は使わない
 
-### ヒーロー（`.verdict-hero`）の組み立て
-- `<h1>` には markdown 「ヘッドコピー」（一文）を入れる
-- `.pill-row`: 総合スタンス（`.pill.solid`）＋ 確信度 ＋ ポジション量目安
-- `.verdict-grid`: 推奨行動 / 新規買い / 利確方針 / 損切り条件 の 4 セル
-- `.do-dont`: 「✅ 今日やること」「⛔ 今日やらないこと」の 2 ボックス
-- `.next-trigger`: 「⏰ 次に判断が変わるイベント」（日時 + イベント名 + 1行説明）
+### 「2. 高ボラティリティ重要決算スケジュール」（`.events` / `.event-card`）
+- `## 2.` がある場合のみ描画。`<section id="earnings">`、`.sec-h .num` は `2`
+- `.ehead`: `.date`（日付）＋ `.ename`（Ticker / 企業名）＋ `.move-tag`（想定変動率、あれば）＋ `.imp`（重要度）
+- `.branch-grid`: 左 `.upside`「▲ 予想超え」、右 `.downside`「▼ 予想未達」
+- `.pre-post`: 左「決算前」、右「決算後」
 
-### 「10バガー候補銘柄」（`.watch` / `.stock`）
-- `## 8. 10バガー候補銘柄` がある場合のみ描画し、無い場合は DOM ごと省略する
-- セクションヘッダー: `<section id="tenbagger">`、`.sec-h .num` は `8`、見出しは「10バガー候補銘柄」、サブコピーは「米国株の長期調査候補」
-- 冒頭に短い注記を 1 行だけ置く: 「買い推奨ではなく、5〜10年の事業成長を深掘りする調査候補。」
+### 「3. 今週の重要イベント（決算を除く）」（`.events` / `.event-card`）
+- `<section id="events">`、`.sec-h .num` は `3`。`.move-tag` は付けない
+- `.branch-grid`: 左 `.upside`「▲ 上振れ」、右 `.downside`「▼ 下振れ」
+- `.pre-post`: 左「イベント前」、右「イベント後」
+
+### 「4. 10バガー候補銘柄」（`.watch` / `.stock`）
+- `## 4.` がある場合のみ描画し、無い場合は DOM ごと省略する
+- `<section id="tenbagger">`、`.sec-h .num` は `4`、見出しは「10バガー候補銘柄」、サブコピーは「米国株の長期調査候補」
+- 冒頭に `.theme-intro` で短い注記を 1 行: 「買い推奨ではなく、5〜10年の事業成長を深掘りする調査候補。」
 - 各候補は `.stock` カードに変換する:
   - `.top`: `.nm` に `Ticker — Company name`、`.role` に `High-conviction compounder` / `Speculative high-upside` / `Turnaround growth` / `Watchlist only` / `Avoid`
-  - 本文上部に Sector / Industry、Market cap、Action classification、Confidence score を短く表示
-  - `.signals`: 左に「10倍シナリオ」、右に「弱気・除外シナリオ」
+  - 本文上部（`.ch-note` を流用）に Sector / Industry、Market cap、Action classification、Confidence score を短く表示
+  - `.signals`: 左 `.sig.bull`「10倍シナリオ」、右 `.sig.bear`「弱気・除外シナリオ」
   - `.act`: 「四半期で見るKPI」と「次の確認アクション」を 1〜2 行で表示
   - Investment thesis、Key growth drivers、Competitive advantage、Financial quality、Valuation scenario、Major risks は長文にせず要点だけ残す
 - スコア（Market opportunity / Revenue growth quality / Margin expansion potential / Competitive advantage / Balance sheet strength / Management quality / Valuation attractiveness / 10-bagger plausibility）は `.stock` 内の短い箇条書き、または銘柄ごとの `<details class="archive">` に入れる
 
-### 「今日の結論（3行）」（`.concl-3`）
-- ページ最後（`## 10. 詳細データ・ソース` の **直前**）に置く
-- 番号付きリストで 3 項目厳守
+### 「5. 量子コンピューティング」「6. 宇宙」（`.news-list` ＋ `.watch`）
+- それぞれ `<section id="quantum">`（num `5`）／`<section id="space">`（num `6`）
+- 構成: `.block-label`「📰 関連ニュース」＋ `.news-list` ＞ `.news` × N → `.block-label`「📈 関連銘柄」＋ `.watch` ＞ `.stock` × N
+- `.news`: `.imp` 重要度 ＋ `.title` 見出し／`.nrows` に「関連銘柄・相場への影響・注目点」
+- `.stock`: `.nm` に `Ticker — Company name`、`.role` に区分、`.ch-note` を流用して「分野 / 時価総額 / 区分」、`.signals` に強気材料・弱気材料、`.act` に注目KPI
+- ニュースまたは銘柄の一方しか無い場合、存在する `.block-label` ＋ ブロックのみ描画する
 
 ## Step 3: index.html 更新（最新レポートで上書き）
 
